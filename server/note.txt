@@ -1,0 +1,3 @@
+models -> viết class cho các actor trong hệ thống hoặc có thể coi như là thiết kế schema 
+controllers -> viết các hàm thực hiện chức năng của các modules 
+config -> setup firestore 
