@@ -26,20 +26,5 @@
 
 ## 2. Chạy ứng dụng:  
    ```bash
-   npm run dev
+   npm start
    ```
-
-
-# Lưu ý khi push branch lên:
-
-## 1. Kiểm tra lỗi eslint:  
-   ```bash
-   npm run lint
-   ```
-
-## 2. Kiểm tra lỗi khi build:  
-   ```bash
-   npm run build
-   ```
-
-Nếu có lỗi, sửa lỗi trước khi đẩy lên branch và request merge
