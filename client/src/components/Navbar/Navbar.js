@@ -2,10 +2,12 @@ import logob from "../../components/assets/logob.png";
 import logow from "../../components/assets/logow.png";
 import './Navbar.css'
 import React from 'react'
-
-
-
-
+import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import LocalPrintshopRoundedIcon from '@mui/icons-material/LocalPrintshopRounded';
+import RestorePageRoundedIcon from '@mui/icons-material/RestorePageRounded';
+import NoteAddRoundedIcon from '@mui/icons-material/NoteAddRounded';
+import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 
 const Navbar = () => {
   return (
@@ -14,25 +16,26 @@ const Navbar = () => {
         <img src={logow}  className="logo" ></img>
         <ul className="nav-menu">
             <div className="home">
-                <div>home_icon</div>
+                <HomeRoundedIcon/>
                 <li>Home</li>
             </div>
             <div className="print">
-                <div>printer_icon</div>
+                <LocalPrintshopRoundedIcon/>
                 <li>In File</li>
             </div>
             <div className="log">
-                <div>log_icon</div>
+                <RestorePageRoundedIcon/>
                 <li>Lịch sử</li>
             </div>
             <div className="buypaper">
-                <div>cart_icon</div>
+                <NoteAddRoundedIcon/>
                 <li>Mua giấy</li>
             </div>
         </ul>
         <div className="navbar-right">
-            <div>notify_icon</div>
-            <img src={logob} className="account" ></img>
+            <CircleNotificationsIcon/>
+            <AccountCircleRoundedIcon sx={{ fontSize: 50 }} />
+
         </div>
         
     </div>
