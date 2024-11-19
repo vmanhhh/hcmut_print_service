@@ -1,0 +1,45 @@
+
+
+
+
+
+
+
+.logo, .account{
+    height: 50px;
+    width: 50px;
+    /* background-color: black; */
+}
+.navbar{
+    display: flex;
+    padding: 10px 10px;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0C5282;
+    margin: 10px;
+    border-radius: 20px;
+    height: 70px;
+}
+.nav-menu{
+    display: flex;
+    list-style-type: none;
+    gap: 20px;
+    font-size: 18px;
+    color:white;
+    cursor: pointer;
+}
+.navbar-right{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    font-size: 18px;
+    cursor: pointer;
+}
+.home, .print, .log, .buypaper{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
