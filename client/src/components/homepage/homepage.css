@@ -1,0 +1,126 @@
+/* General homepage styling */
+.homepage {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
+    background-color: #f0f8ff;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Header Section */
+  .header img.background_image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  /* Main Content */
+  .homepage-content {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #f8f9fa;
+    padding: 20px;
+  }
+  
+  .welcome-banner h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #003b6d;
+  }
+  
+  .welcome-banner p {
+    font-size: 1.2rem;
+    color: #555;
+    margin: 10px 0;
+  }
+  
+  .start-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .start-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Footer Section */
+  .footer {
+    background-color: #003b6d;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .footer h2 {
+    color: #f8f9fa;
+    margin-bottom: 10px;
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+  
+  .footer-content img {
+    max-width: 150px;
+    margin: 10px 0;
+  }
+  
+  .footer-content ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer-content ul li {
+    margin: 5px 0;
+    font-size: 1rem;
+    color: #d1d1d1;
+  }
+  
+  .footer hr {
+    border: 0.5px solid #ccc;
+  }
+  
+  .footer-copyright {
+    font-size: 0.8rem;
+    color: #bbb;
+  }
+  /* Main Content */
+.homepage-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .start-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .start-button:hover {
+    background-color: #0056b3;
+  }
+  
