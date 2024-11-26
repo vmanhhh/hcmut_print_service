@@ -1,17 +1,8 @@
 // Import các functions cần thiết từ Firebase SDK
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import {
+const { initializeApp } = require("firebase/app");
+const {
   getFirestore,
-  collection,
-  query,
-  where,
-  getDocs,
-  getDoc,
-  doc,
-  updateDoc,
-  serverTimestamp,
-} from "firebase/firestore";
+} = require("firebase/firestore");
 
 // Firebase configuration
 const firebaseConfig = {
@@ -26,12 +17,10 @@ const firebaseConfig = {
 
 // Khởi tạo Firebase
 const firebaseApp = initializeApp(firebaseConfig);
-const analytics = getAnalytics(firebaseApp);
 const fireStore = getFirestore(firebaseApp);
 
 // Export các instance cần thiết
 module.exports = {
   firebaseApp,
-  analytics,
   fireStore,
 };
