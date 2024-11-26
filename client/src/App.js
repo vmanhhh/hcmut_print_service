@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import CustomDialog from './components/CustomDialog';
 import CustomButton from './components/Button';
+import InfoDialog from './components/InfoDialog';
 
 function App() {
   const [open, setOpen] = useState(false);
@@ -17,13 +18,11 @@ function App() {
     <div>
       <h1>Hello</h1>
       <CustomButton text="Open form dialog" onClick={handleOpen} />
-      <CustomDialog
-        open={open}
+      <InfoDialog
+        open={true}
         onClose={handleClose}
-        title="Subscribe"
       >
-        <p>Hello my friends</p>
-      </CustomDialog>
+      </InfoDialog>
     </div>
   );
 }
