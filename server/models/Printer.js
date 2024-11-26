@@ -1,4 +1,4 @@
-const { collection, addDoc, doc, getDoc, getDocs, updateDoc, deleteDoc, query, where, serverTimestamp } = require("firebase/firestore");
+const { collection, addDoc, doc, getDoc, getDocs, updateDoc, deleteDoc, query, where } = require("firebase/firestore");
 const logger = require("../config/logger");
 
 const db = require("../config/db").fireStore
@@ -8,7 +8,7 @@ async function create_printer(data) {
     try {
         const printerCollection = collection(db, 'Printer');
         data.enabled = data.enabled == undefined ? true : false
-        data.created_date = serverTimestamp()
+        data.created_date = getCurrentDateTime()
         const docRef = await addDoc(printerCollection, data);
         return docRef.id
     } catch (error) {

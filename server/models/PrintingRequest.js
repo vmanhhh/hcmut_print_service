@@ -1,7 +1,8 @@
-const { collection, addDoc, doc, getDoc, updateDoc, deleteDoc, getDocs, serverTimestamp } = require("firebase/firestore");
+const { collection, addDoc, doc, getDoc, updateDoc, deleteDoc, getDocs, serverTimestamp, query, where } = require("firebase/firestore");
 
 const db = require("../config/db").fireStore
-const logger = require("../config/logger")
+const logger = require("../config/logger");
+const { get_printer_by_id } = require("./Printer");
 
 // Function to create a new printing request
 async function create_printing_req(data) {
@@ -9,7 +10,11 @@ async function create_printing_req(data) {
         const printingRequestCollection = collection(db, 'PrintingRequest');
         data.created_at = serverTimestamp()
         const docRef = await addDoc(printingRequestCollection, data);
-        logger.info(`Created new printing request with id-${docRef.id} successfully`);
+
+        //create payment
+        const payment = await
+
+            logger.info(`Created new printing request with id-${docRef.id} successfully`);
         return docRef.id
     } catch (error) {
         logger.error("Error creating printing request: \n" + error);
@@ -17,23 +22,34 @@ async function create_printing_req(data) {
     }
 }
 async function get_all_printing_reqs() {
-    const printingReqs = []
-    await db.collection("PrintingRequest")
-        .get()
-        .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                doc.data().id = doc.id
-                printingReqs.push(doc.data())
-            });
+    const printingReqs = [];
 
-            if (printingReqs.length == 0) return null
-            return printers
-        })
-        .catch((error) => {
-            throw error
-        });
+    try {
+        const querySnapshot = await getDocs(collection(db, 'PrintingRequest'));
+
+        for (const doc of querySnapshot.docs) {
+            const data = doc.data();
+            data.id = doc.id;
+
+            if (data.printer) {
+                const printer = await get_printer_by_id(data.printer_id);
+                if (printer) {
+                    data.printer = printer;
+                    data.printer.id = data.printer_id
+                } else {
+                    data.printer = null;
+                }
+                delete data.printer_id
+            }
+            printingReqs.push(data);
+        }
+
+        return printingReqs.length > 0 ? printingReqs : null;
+    } catch (error) {
+        console.error("Error fetching printing requests:", error);
+        throw error;
+    }
 }
-
 async function get_printing_reqs_by_id(id) {
     try {
         const docRef = doc(db, 'PrintingRequest', id);
@@ -67,22 +83,12 @@ async function get_all_building_printer() {
 // Function to get a printing request by ID
 async function get_printing_reqs_by_user_id(id) {
     try {
-        const docs = await db.collection('PrintingRequest')
-            .where('user_id', '==', id) // Filter payments by userId
-            .get();
-
-
-        if (docs.empty()) {
-            return null
-        } else {
-            const payments = [];
-            docs.forEach(doc => {
-                const data = doc.data()
-                data.id = doc.id
-                payments.push(data); // Add each document's data to the payments array
-            });
-            return payments
-        }
+        const docs = await getDocs(query(collection(db, 'PrintingRequest'), where('student_id', '==', id)))
+        const reqs = []
+        docs.forEach((doc) => {
+            reqs.push(doc.data())
+        });
+        return reqs.length == 0 ? null : reqs
     } catch (error) {
         throw error
     }

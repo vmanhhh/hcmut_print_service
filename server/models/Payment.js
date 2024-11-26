@@ -4,16 +4,18 @@ const { collection, addDoc, doc, getDoc, updateDoc, deleteDoc } = require("fireb
 
 const db = require("../config/db").fireStore
 const logger = require("../config/logger")
+const { getCurrentDateTime } = require("../middlewares/supportFunction")
 
-async function createPayment(data, printingRequestId) {
+async function createPrintingPayment(printingRequestId, amount) {
     try {
         const paymentCollection = collection(db, 'Payment');
-        data = {
-            printing_request_id: printingRequestId,
-            amount: data.amount,
-            status: data.status,
-            created_date: new Date().toISOString()
+
+        const data = {
+            name: 'Printing payment',
+            created_date: getCurrentDateTime(),
+            printing_request_id: printingRequestId
         }
+
 
         const docRef = await addDoc(paymentCollection, paymentData);
         logger.info(`Create new payment with id-${docRef.id} successfully`);
@@ -68,7 +70,7 @@ async function deletePaymentById(paymentId) {
 }
 
 module.exports = {
-    createPayment,
+    createPrintingPayment,
     getPaymentByUserId,
     deletePaymentById
 };

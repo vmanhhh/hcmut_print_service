@@ -2,7 +2,7 @@ const { collection, addDoc, doc, getDoc, updateDoc, deleteDoc } = require("fireb
 
 const db = require("../config/db").fireStore
 const logger = require("../config/logger");
-const { get_printing_reqs_by_user_id, get_printing_reqs_by_id } = require("../models/PrintingRequest");
+const { get_printing_reqs_by_user_id, get_printing_reqs_by_id, get_all_printing_reqs } = require("../models/PrintingRequest");
 
 // Function to create a new printing request
 async function createPrintingRequest(req, res, next) {
@@ -18,8 +18,9 @@ async function createPrintingRequest(req, res, next) {
 async function getPrintingRequestByUserId(req, res, next) {
     try {
         const result = await get_printing_reqs_by_user_id(req.body.id);
-        if (result) res.status(401).json('Not found printing request with given id')
-        res.json(result);
+        console.log(result)
+        if (result == null) res.status(401).json('Not found printing request with given id')
+        else res.json(result);
     } catch (error) {
         next(error)
     }
@@ -27,6 +28,16 @@ async function getPrintingRequestByUserId(req, res, next) {
 async function getPrintingRequestById(req, res, next) {
     try {
         const result = await get_printing_reqs_by_id(req.body.id);
+        if (result == null) res.status(401).json('Not found printing request with given id')
+        else res.json(result);
+    } catch (error) {
+        next(error)
+    }
+}
+
+async function getAllPrintingReqs(req, res, next) {
+    try {
+        const result = await get_all_printing_reqs();
         if (result == null) res.status(401).json('Not found printing request with given id')
         else res.json(result);
     } catch (error) {
@@ -51,5 +62,6 @@ module.exports = {
     createPrintingRequest,
     getPrintingRequestByUserId,
     deletePrintingRequestById,
-    getPrintingRequestById
+    getPrintingRequestById,
+    getAllPrintingReqs
 };
