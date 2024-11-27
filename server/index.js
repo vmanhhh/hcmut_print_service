@@ -1,12 +1,12 @@
 //Express setup
 const express = require("express");
 const app = express();
-const fireStore = require('./config/db')
-const { createPayment } = require('./controller/PaymentController')
 
 
 const printerRoutes = require('./routes/printer')
 const printingReqRoutes = require('./routes/printingrequest')
+const paperRoutes = require('./routes/paper')
+const userRoutes = require('./routes/user')
 
 require("dotenv").config();
 const port = process.env.PORT;
@@ -14,6 +14,10 @@ const port = process.env.PORT;
 app.use(express.json());
 app.use('/api/printer', printerRoutes);
 app.use('/api/printingReq', printingReqRoutes);
+app.use('/api/paper', paperRoutes);
+app.use('/api/user', userRoutes);
+
+
 // Khởi động server
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);

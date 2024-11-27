@@ -1,9 +1,9 @@
-const db = require("../config/db");
+const db = require("../config/db").fireStore;
 
 async function getCustomerByID(id) {
   try {
     // Tạo reference đến document trong collection 'customers'
-    const customerRef = doc(db, "customers", id);
+    const customerRef = doc(db, "User", id);
     // Lấy snapshot của document
     const customerSnap = await getDoc(customerRef);
     // Kiểm tra xem document có tồn tại không
@@ -17,7 +17,7 @@ async function getCustomerByID(id) {
 async function getCustomerByEmail(email) {
   try {
     // Tạo reference đến document trong collection 'customers'
-    const customerRef = doc(db, "customers", email);
+    const customerRef = doc(db, "User", email);
     // Lấy snapshot của document
     const customerSnap = await getDoc(customerRef);
     // Kiểm tra xem document có tồn tại không
@@ -45,7 +45,7 @@ async function setCustomerLastUsed(email) {
     // Lấy document đầu tiên vì email là unique
     const customerDoc = querySnapshot.docs[0];
     // Update lastUsed time
-    await updateDoc(doc(db, "customers", customerDoc.id), {
+    await updateDoc(doc(db, "User", customerDoc.id), {
       lastUsed: serverTimestamp(),
     });
     return { updated: true };
@@ -57,7 +57,7 @@ async function setCustomerLastUsed(email) {
 async function getBalance(id) {
   try {
     // Lấy reference đến document customer
-    const customerRef = doc(db, "customers", id);
+    const customerRef = doc(db, "User", id);
     // Lấy snapshot của document
     const customerSnap = await getDoc(customerRef);
     // Kiểm tra document có tồn tại không
@@ -107,4 +107,4 @@ module.exports = {
   setCustomerLastUsed,
   getBalance,
   updateBalance,
-};
+}

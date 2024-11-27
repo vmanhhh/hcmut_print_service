@@ -2,12 +2,12 @@ const { collection, addDoc, doc, getDoc, updateDoc, deleteDoc } = require("fireb
 
 const db = require("../config/db").fireStore
 const logger = require("../config/logger");
-const { get_printing_reqs_by_user_id, get_printing_reqs_by_id, get_all_printing_reqs } = require("../models/PrintingRequest");
+const { get_printing_reqs_by_user_id, get_printing_reqs_by_id, get_all_printing_reqs, create_printing_req } = require("../models/PrintingRequest");
 
 // Function to create a new printing request
 async function createPrintingRequest(req, res, next) {
     try {
-        const result = await create_printer(req.body);
+        const result = await create_printing_req(req.body);
         res.json('Create new printer successfully');
 
     } catch (err) {

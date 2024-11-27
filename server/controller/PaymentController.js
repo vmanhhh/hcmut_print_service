@@ -1,28 +1,23 @@
-const Payment = require('../models/Payment')
-const { collection, addDoc, doc, getDoc, updateDoc, deleteDoc } = require("firebase/firestore");
+const { collection, addDoc, doc, getDoc, updateDoc, deleteDoc, getDocs, where, limit } = require("firebase/firestore");
 
 
 const db = require("../config/db").fireStore
 const logger = require("../config/logger")
-const getCurrentDateTime = require("../middlewares/supportFunction")
+const getCurrentDateTime = require("../middlewares/supportFunction");
+const { query } = require("express");
 
-async function createPayment(data, printingRequestId) {
-    try {
-        const paymentCollection = collection(db, 'Payment');
-        data.printing_request_id = printingRequestId
-        data.created_date = getCurrentDateTime()
+async function createPrintingPayment(printingRequestId) {
 
-        const docRef = await addDoc(paymentCollection, paymentData);
-        logger.info(`Create new payment with id-${docRef.id} successfully`);
-        return docRef.id
-    } catch (error) {
-        logger.error("Error creating payment: \n" + error);
-        return error
-    }
 }
 
-async function getPaymentById(paymentId) {
 
+
+async function confirmPrintingPayment(printingRequestId) {
+    try {
+
+    } catch (error) {
+
+    }
 }
 
 async function getPaymentByUserId(id) {
@@ -64,8 +59,43 @@ async function deletePaymentById(paymentId) {
     }
 }
 
+
+const createOrUpdatePaper = async (req, res) => {
+    try {
+        const paperData = req.body; // Dữ liệu của giấy từ client
+        await addPaper(paperData);
+        res.status(200).json({ message: "Paper added/updated successfully!" });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
+
+// Controller lấy thuộc tính "type" của tài liệu
+const fetchPaperType = async (req, res) => {
+    try {
+        const paperId = req.params.id; // Lấy id của tài liệu từ params
+        const paperType = await getPaperType(paperId);
+        res.status(200).json({ paperType });
+    } catch (error) {
+        res.status(404).json({ error: error.message });
+    }
+};
+
+// Controller lấy thuộc tính "price" của tài liệu
+const fetchPaperPrice = async (req, res) => {
+    try {
+        const paperId = req.params.id; // Lấy id của tài liệu từ params
+        const paperPrice = await getPaperPrice(paperId);
+        res.status(200).json({ paperPrice });
+    } catch (error) {
+        res.status(404).json({ error: error.message });
+    }
+};
 module.exports = {
     createPayment,
     getPaymentByUserId,
-    deletePaymentById
+    deletePaymentById,
+    createOrUpdatePaper,
+    fetchPaperType,
+    fetchPaperPrice
 };
