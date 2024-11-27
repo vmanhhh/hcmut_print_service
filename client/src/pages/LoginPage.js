@@ -1,10 +1,10 @@
 import React from "react";
 import Login from "../components/login/login";
 
-const LoginPage = () => {
+const LoginPage = (handleLoginSuccess) => {
   return (
     <>
-      <Login />
+      <Login onLoginSuccess={handleLoginSuccess} />
     </>
   );
 };

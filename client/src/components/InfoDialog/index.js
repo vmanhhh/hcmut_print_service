@@ -3,10 +3,8 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import Button from '@mui/material/Button';
 import { Box, Typography } from '@mui/material';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-const InfoDialog = ({ open, onClose }) => {
+const InfoDialog = ({ open, onClose, user }) => {
   return (
     <Dialog
       open={open}
@@ -31,7 +29,7 @@ const InfoDialog = ({ open, onClose }) => {
       >
         {/* User Title */}
         <Typography variant="h5" fontWeight="bold">
-          Dangminhtuan374
+          {user.name}
         </Typography>
 
         {/* Page Balance */}
