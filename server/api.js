@@ -5,7 +5,18 @@ dotenv.config()
 
 
 // ---------- STUDENTS  ----------
-getStudentInfo({ id: 'EJGnnk8JMxU9rbnganC3' }).then((val) => { console.log(val) }).catch((err) => { })
+
+// login({ username: 'phuoc.hatruong@hcmut.edu.vn', password: 'hcmutK241' }).then((val) => { console.log(val.token) }).catch((err) => console.error(err))
+async function login(data) {
+    try {
+        const response = await axios.post(`${process.env.SERVER_URL}/api/user/login`, data)
+        return response.data
+    } catch (error) {
+        throw error
+    }
+}
+
+getStudentInfo({ id: 'DywMGT3eNFOsKRz2izw3' }).then((val) => { console.log(val) }).catch((err) => { console.log(err) })
 async function getStudentInfo(id) {
     try {
         const response = await axios.post(`${process.env.SERVER_URL}/api/user/get_studentinfo`, id)

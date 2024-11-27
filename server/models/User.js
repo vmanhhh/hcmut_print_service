@@ -1,34 +1,44 @@
+const { getFirestore, doc, getDoc, updateDoc, getDocs, query, where, or, collection, limit } = require("firebase/firestore");
+
 const db = require("../config/db").fireStore;
 
-async function getCustomerByID(id) {
+async function get_customer_by_id(id) {
   try {
-    // Tạo reference đến document trong collection 'customers'
     const customerRef = doc(db, "User", id);
-    // Lấy snapshot của document
     const customerSnap = await getDoc(customerRef);
+
     // Kiểm tra xem document có tồn tại không
-    if (customerSnap.exists()) return customerSnap.data();
+    if (customerSnap.exists()) {
+      const data = customerSnap.data()
+      data.id = customerSnap.id
+      return data;
+    }
     else return null;
   } catch (err) {
     throw err;
   }
 }
 
-async function getCustomerByEmail(email) {
+async function get_customer_by_email_or_usrname(data) {
   try {
-    // Tạo reference đến document trong collection 'customers'
-    const customerRef = doc(db, "User", email);
-    // Lấy snapshot của document
-    const customerSnap = await getDoc(customerRef);
-    // Kiểm tra xem document có tồn tại không
-    if (customerSnap.exists()) return customerSnap.data();
-    else return null;
+    const docs = await getDocs(query(collection(db, 'User'), or(where('username', '==', data), where('email', '==', data)), limit(1)))
+    if (docs.empty) return null
+    else {
+      let data
+      docs.forEach((doc) => {
+        data = doc.data()
+        data.id = doc.id
+      })
+      return data
+    }
   } catch (err) {
     throw err;
   }
 }
 
-async function setCustomerLastUsed(email) {
+
+
+async function set_customer_last_used(email) {
   try {
     // kiểm tra email
     if (!email) {
@@ -54,7 +64,7 @@ async function setCustomerLastUsed(email) {
   }
 }
 
-async function getBalance(id) {
+async function get_balance(id) {
   try {
     // Lấy reference đến document customer
     const customerRef = doc(db, "User", id);
@@ -72,9 +82,8 @@ async function getBalance(id) {
   }
 }
 
-import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore";
 
-async function updateBalance(id, addedBalance) {
+async function update_balance(id, addedBalance) {
   try {
     const customerRef = doc(db, "customers", id);
     const customerSnap = await getDoc(customerRef);
@@ -102,9 +111,7 @@ async function updateBalance(id, addedBalance) {
 }
 
 module.exports = {
-  getCustomerByID,
-  getCustomerByEmail,
-  setCustomerLastUsed,
-  getBalance,
-  updateBalance,
+  get_customer_by_id,
+  update_balance,
+  get_customer_by_email_or_usrname,
 }
