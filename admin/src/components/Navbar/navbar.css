@@ -1,0 +1,46 @@
+
+.logo{
+    height: 50px;
+    width: 50px;
+    /* background-color: black; */
+}
+.navbar{
+    display: flex;
+    padding: 10px 30px 10px 30px;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0C5282;
+    margin: 10px;
+    gap: 20px;
+    border-radius: 20px;
+    height: 70px;
+}
+.navbar-options{
+    display: flex;
+    gap: 20px;
+    font-size: 18px;
+    cursor: pointer;
+}
+.navbar-right{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    font-size: 18px;
+    cursor: pointer;
+    color:white;
+}
+
+.request, .log, .print{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    color:white;
+    text-decoration: none;
+}
+
+.navbar-options .active{
+    text-decoration: underline;
+}
