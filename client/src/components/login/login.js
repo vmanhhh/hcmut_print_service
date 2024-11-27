@@ -1,12 +1,15 @@
 import React from "react";
 import { GoogleLogin } from "@react-oauth/google";
-import "./login.css";
+import styles from "./Login.module.css";
 import logo from "./logo.jpg";
+import { jwtDecode } from "jwt-decode";
 
-const Login = () => {
+const Login = ({ onLoginSuccess }) => {
   const handleLoginSuccess = (response) => {
     console.log("Login Success:", response);
-    // Handle the login success, e.g., save the token, fetch user info, etc.
+    // Decode the JWT token to get user information
+    const user = jwtDecode(response.credential);
+    onLoginSuccess(user);
   };
 
   const handleLoginFailure = (error) => {
@@ -14,14 +17,14 @@ const Login = () => {
   };
 
   return (
-    <section className="log-in" id="log-in">
-      <div className="container">
-        <p className="title">Log in</p>
-        <div className="img">
+    <section className={styles.loginBody} id="log-in">
+      <div className={styles.container}>
+        <p className={styles.title}>Log in</p>
+        <div className={styles.img}>
           <img
             src={logo}
             alt="logo"
-            className="logo"
+            className={styles.logo}
             style={{
               width: "150px",
               height: "auto",
@@ -34,7 +37,7 @@ const Login = () => {
           onSuccess={handleLoginSuccess}
           onError={handleLoginFailure}
         />
-        <div className="term-privacy">
+        <div className={styles.termPrivacy}>
           <p>
             By clicking <b>Continue with Google</b>, you agree to our{" "}
             <a href="/">Terms of use</a> and <a href="/">Privacy Policy</a>
