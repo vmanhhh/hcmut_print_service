@@ -4,15 +4,16 @@ const {
   getFirestore,
 } = require("firebase/firestore");
 
+require('dotenv').config()
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAP8_QQMOQQZPFI2SQJo3OOfzN8a3lwLyg",
-  authDomain: "spssapp-89373.firebaseapp.com",
-  projectId: "spssapp-89373",
-  storageBucket: "spssapp-89373.firebasestorage.app",
-  messagingSenderId: "85999413488",
-  appId: "1:85999413488:web:54f548f44cd04809627a35",
-  measurementId: "G-FCB7QPRL15",
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appId: process.env.APP_ID,
+  measurementId: process.env.MEASUREMENT_ID,
 };
 
 // Khởi tạo Firebase
