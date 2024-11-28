@@ -1,4 +1,4 @@
-import logob from "../../components/assets/logob.png";
+// import logob from "../../components/assets/logob.png";
 import logow from "../../components/assets/logow.png";
 import './Navbar.css'
 import React from 'react'

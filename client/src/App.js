@@ -2,7 +2,9 @@ import Navbar from "./components/Navbar/Navbar"
 import './App.css';
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
-
+import React, { useState } from 'react';
+import BuyPaper from "./components/buyPaper/buypaper";
+import Login from "./components/login/login";
 
 function App() {
   const [open, setOpen] = useState(false);
@@ -19,7 +21,7 @@ function App() {
     <>
     <div className='app'>
         <Navbar />
-        <Header/>
+        <Login/>
     </div>
     <Footer/>
     </>

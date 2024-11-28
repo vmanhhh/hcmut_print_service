@@ -10,9 +10,13 @@
     gap: 50px;
 }
 .select-state{
+    cursor: pointer;
     padding: 10px;
     border-radius: 10px;
     border: none;
     border-radius: 15px;
     background-color: #B6DAF3;
+}
+.remove-icon{
+    cursor: pointer;
 }

@@ -1,6 +1,6 @@
 import logow from "../../assets/logow.png";
 import './navbar.css';
-import React from 'react';
+import React, { useState } from 'react';
 
 import RestorePageRoundedIcon from '@mui/icons-material/RestorePageRounded';
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
@@ -8,8 +8,16 @@ import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import RecentActorsIcon from '@mui/icons-material/RecentActors';
 import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
 import { NavLink } from "react-router-dom";
+import AccountPopup from '../accountPopup/accountPopup';
 
-const navbar = () => {
+
+const Navbar = () => {
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+
+  const togglePopup = () => {
+    setIsPopupVisible(!isPopupVisible);
+  };
+
   return (
     <div className="navbar">
         <img src={logow} className="logo" alt="Logo" />
@@ -29,13 +37,18 @@ const navbar = () => {
         </div> 
          <div className="navbar-right">
                 <CircleNotificationsIcon/>
-                <AccountCircleRoundedIcon sx={{ fontSize: 60 }} />
+               <div className="account-icon" onClick={togglePopup} ><AccountCircleRoundedIcon sx={{ fontSize: 60 }} /></div>
         </div>
+        {isPopupVisible && (
+        <div className='account-popup'>
+          <AccountPopup/>
+        </div>
+      )}
     </div>
   );
 }
 
-export default navbar;
+export default Navbar;
 
 
 

@@ -19,7 +19,7 @@ const printerItem = () => {
                 <option value="working">Đang hoạt động</option>
                 <option value="fixing">Đang bảo trì</option>
             </select>
-            <CancelIcon/>
+            <div className='remove-icon'><CancelIcon/></div>
         </div>
     )
 }
