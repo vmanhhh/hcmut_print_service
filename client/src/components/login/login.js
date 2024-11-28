@@ -1,16 +1,16 @@
-import React from "react";
-import { GoogleLogin } from "@react-oauth/google";
+import React, { useState } from "react";
 import "./login.css";
 import logo from "./logo.jpg";
 
 const Login = () => {
-  const handleLoginSuccess = (response) => {
-    console.log("Login Success:", response);
-    // Handle the login success, e.g., save the token, fetch user info, etc.
-  };
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleLoginFailure = (error) => {
-    console.error("Login Failed:", error);
+  const handleLogin = (event) => {
+    event.preventDefault();
+    console.log("Email:", email);
+    console.log("Password:", password);
+    // Handle the login logic, e.g., send a request to the server
   };
 
   return (
@@ -30,13 +30,32 @@ const Login = () => {
             }}
           />
         </div>
-        <GoogleLogin
-          onSuccess={handleLoginSuccess}
-          onError={handleLoginFailure}
-        />
+        <form onSubmit={handleLogin}>
+          <div className="form-group">
+            <label htmlFor="email">Email:</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Password:</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" className="btn btn-primary">Log In</button>
+        </form>
         <div className="term-privacy">
           <p>
-            By clicking <b>Continue with Google</b>, you agree to our{" "}
+            By logging in, you agree to our{" "}
             <a href="/">Terms of use</a> and <a href="/">Privacy Policy</a>
           </p>
         </div>
