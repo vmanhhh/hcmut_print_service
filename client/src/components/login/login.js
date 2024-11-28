@@ -4,6 +4,8 @@ import styles from "./Login.module.css";
 import logo from "./logo.jpg";
 import { useNavigate } from "react-router-dom";
 
+const SERVER_URI = "http://localhost:5001"; // Define the server URI
+
 const Login = ({ onLoginSuccess }) => {
   const navigate = useNavigate();
 
@@ -12,7 +14,7 @@ const Login = ({ onLoginSuccess }) => {
     const token = response.credential;
 
     try {
-      const res = await fetch("/api/auth/google", {
+      const res = await fetch(`${SERVER_URI}/api/auth/google`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -22,13 +24,15 @@ const Login = ({ onLoginSuccess }) => {
 
       if (res.ok) {
         const data = await res.json();
+        console.log("Backend response data:", data);
         onLoginSuccess(data.user);
         navigate("/");
       } else {
-        console.error("Login failed");
+        const errorText = await res.text();
+        console.error("Login failed:", errorText);
       }
     } catch (error) {
-      console.error("Login failed", error);
+      console.error("Login failed:", error);
     }
   };
 
