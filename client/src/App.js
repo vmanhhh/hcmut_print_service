@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-d
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
+
 import HomePage from "./pages/HomePage";
 import Login from "./components/login/login";
 import InfoDialog from "./components/InfoDialog";
@@ -39,6 +40,7 @@ function App() {
   };
 
   return (
+
     <GoogleOAuthProvider clientId={clientId}>
       <Router>
         <div className="app">
