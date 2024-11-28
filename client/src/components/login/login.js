@@ -3,13 +3,18 @@ import { GoogleLogin } from "@react-oauth/google";
 import styles from "./Login.module.css";
 import logo from "./logo.jpg";
 import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 const Login = ({ onLoginSuccess }) => {
+  const navigate = useNavigate();
+
   const handleLoginSuccess = (response) => {
     console.log("Login Success:", response);
     // Decode the JWT token to get user information
     const user = jwtDecode(response.credential);
     onLoginSuccess(user);
+    // Redirect to home page
+    navigate("/");
   };
 
   const handleLoginFailure = (error) => {

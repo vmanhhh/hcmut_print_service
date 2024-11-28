@@ -1,4 +1,3 @@
-
 import logow from "../../components/assets/logow.png";
 import "./Navbar.css";
 import React from "react";
@@ -8,9 +7,19 @@ import LocalPrintshopRoundedIcon from "@mui/icons-material/LocalPrintshopRounded
 import RestorePageRoundedIcon from "@mui/icons-material/RestorePageRounded";
 import NoteAddRoundedIcon from "@mui/icons-material/NoteAddRounded";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ user, onAccountClick }) => {
+  const navigate = useNavigate();
+
+  const handleAccountClick = () => {
+    if (user) {
+      onAccountClick();
+    } else {
+      navigate("/login");
+    }
+  };
+
   return (
     <div className="navbar">
       <img src={logow} alt="" className="logo"></img>
@@ -42,7 +51,7 @@ const Navbar = () => {
       </ul>
       <div className="navbar-right">
         <CircleNotificationsIcon />
-        <AccountCircleRoundedIcon sx={{ fontSize: 50 }} />
+        <AccountCircleRoundedIcon sx={{ fontSize: 50 }} onClick={handleAccountClick} />
       </div>
     </div>
   );

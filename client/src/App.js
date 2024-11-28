@@ -1,14 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import HomePage from "./pages/HomePage";
 import Login from "./components/login/login";
 import InfoDialog from "./components/InfoDialog";
+import BuyPaperPage from "./pages/BuyPaperPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 import "./App.css";
 
-const clientId = "805088220575-7e7a127038e1hrk80cef6so8c9kmg089.apps.googleusercontent.com";
+const clientId =
+  "805088220575-7e7a127038e1hrk80cef6so8c9kmg089.apps.googleusercontent.com";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -42,16 +50,35 @@ function App() {
     <GoogleOAuthProvider clientId={clientId}>
       <Router>
         <div className="app">
-          <Navbar />
+          <Navbar user={user} onAccountClick={() => setDialogOpen(true)} />
           <Routes>
-            <Route path="/" element={user ? <HomePage /> : <Navigate to="/login" />} />
-            <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
+            <Route
+              path="/"
+              element={user ? <HomePage /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/login"
+              element={user ? <Navigate to="/" /> : <Login onLoginSuccess={handleLoginSuccess} />}
+            />
+            <Route
+              path="/buypaper"
+              element={
+                <ProtectedRoute user={user}>
+                  <BuyPaperPage />
+                </ProtectedRoute>
+              }
+            />
             {/* Add more routes as needed */}
           </Routes>
         </div>
         <Footer />
         {user && (
-          <InfoDialog open={dialogOpen} onClose={handleDialogClose} user={user} />
+          <InfoDialog
+            open={dialogOpen}
+            onClose={handleDialogClose}
+            user={user}
+            onLogout={handleLogout}
+          />
         )}
       </Router>
     </GoogleOAuthProvider>
