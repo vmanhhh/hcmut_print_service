@@ -1,48 +1,90 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import HomePage from "./components/homepage/homepage";
+
+import React, { useState, useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import Navbar from "./components/Navbar/Navbar";
+import Footer from "./components/Footer/Footer";
+
+import HomePage from "./pages/HomePage";
 import Login from "./components/login/login";
-import Upload from "./components/Upload/upload";
-import Navbar from "./components/Navbar/Navbar"; // Navbar cố định
-import Footer from "./components/Footer/Footer"; // Footer cố định
+import InfoDialog from "./components/InfoDialog";
+import BuyPaperPage from "./pages/BuyPaperPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 import "./App.css";
 
-function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Quản lý trạng thái đăng nhập
+const clientId =
+  "805088220575-7e7a127038e1hrk80cef6so8c9kmg089.apps.googleusercontent.com";
 
-  // Hàm xử lý đăng nhập thành công
-  const handleLoginSuccess = () => {
-    setIsLoggedIn(true);
+function App() {
+  const [user, setUser] = useState(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  useEffect(() => {
+    // Retrieve user information from localStorage on initial load
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  const handleLoginSuccess = (user) => {
+    setUser(user);
+    setDialogOpen(true);
+    // Store user information in localStorage
+    localStorage.setItem("user", JSON.stringify(user));
   };
 
-  // Hàm xử lý đăng xuất
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
+
   const handleLogout = () => {
-    setIsLoggedIn(false);
+    setUser(null);
+    localStorage.removeItem("user");
   };
 
   return (
-    <Router>
-      <div>
-        {/* Navbar cố định */}
-        <Navbar />
 
-        {/* Các Routes chính */}
-        <Routes>
-          <Route
-            path="/"
-            element={<HomePage isLoggedIn={isLoggedIn} onLogout={handleLogout} />}
-          />
-          <Route
-            path="/login"
-            element={<Login onLoginSuccess={handleLoginSuccess} />}
-          />
-          <Route path="/upload" element={<Upload />} />
-        </Routes>
-
-        {/* Footer cố định */}
+    <GoogleOAuthProvider clientId={clientId}>
+      <Router>
+        <div className="app">
+          <Navbar user={user} onAccountClick={() => setDialogOpen(true)} />
+          <Routes>
+            <Route
+              path="/"
+              element={user ? <HomePage /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/login"
+              element={user ? <Navigate to="/" /> : <Login onLoginSuccess={handleLoginSuccess} />}
+            />
+            <Route
+              path="/buypaper"
+              element={
+                <ProtectedRoute user={user}>
+                  <BuyPaperPage />
+                </ProtectedRoute>
+              }
+            />
+            {/* Add more routes as needed */}
+          </Routes>
+        </div>
         <Footer />
-      </div>
-    </Router>
+        {user && (
+          <InfoDialog
+            open={dialogOpen}
+            onClose={handleDialogClose}
+            user={user}
+            onLogout={handleLogout}
+          />
+        )}
+      </Router>
+    </GoogleOAuthProvider>
   );
 }
 

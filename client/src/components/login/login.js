@@ -1,35 +1,36 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "./login.css";
+
+import React from "react";
+import { GoogleLogin } from "@react-oauth/google";
+import styles from "./Login.module.css";
 import logo from "./logo.jpg";
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 const Login = ({ onLoginSuccess }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleLoginSuccess = (response) => {
+    console.log("Login Success:", response);
+    // Decode the JWT token to get user information
+    const user = jwtDecode(response.credential);
+    onLoginSuccess(user);
+    // Redirect to home page
+    navigate("/");
+  };
 
-    // Kiểm tra thông tin đăng nhập mặc định
-    if (username === "admin" && password === "admin") {
-      onLoginSuccess(); // Gọi hàm cập nhật trạng thái đăng nhập
-      navigate("/"); // Điều hướng về trang chủ
-    } else {
-      setError("Tên đăng nhập hoặc mật khẩu không đúng!"); // Hiển thị thông báo lỗi
-    }
+  const handleLoginFailure = (error) => {
+    console.error("Login Failed:", error);
   };
 
   return (
-    <section className="log-in" id="log-in">
-      <div className="container">
-        <p className="title">Log in</p>
-        <div className="img">
+    <section className={styles.loginBody} id="log-in">
+      <div className={styles.container}>
+        <p className={styles.title}>Log in</p>
+        <div className={styles.img}>
           <img
             src={logo}
             alt="logo"
-            className="logo"
+            className={styles.logo}
             style={{
               width: "150px",
               height: "auto",
@@ -38,38 +39,16 @@ const Login = ({ onLoginSuccess }) => {
             }}
           />
         </div>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          {error && <p className="error">{error}</p>}
-          <button type="submit" className="btn btn-primary">
-            Log in
-          </button>
-        </form>
-        <div className="term-privacy">
+
+        <GoogleLogin
+          onSuccess={handleLoginSuccess}
+          onError={handleLoginFailure}
+        />
+        <div className={styles.termPrivacy}>
           <p>
-            By logging in, you agree to our{" "}
-            <a href="/">Terms of use</a> and <a href="/">Privacy Policy</a>.
+            By clicking <b>Continue with Google</b>, you agree to our{" "}
+            <a href="/">Terms of use</a> and <a href="/">Privacy Policy</a>
+
           </p>
         </div>
       </div>
