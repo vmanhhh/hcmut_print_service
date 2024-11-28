@@ -1,3 +1,4 @@
+
 import React from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import styles from "./Login.module.css";
@@ -38,6 +39,7 @@ const Login = ({ onLoginSuccess }) => {
             }}
           />
         </div>
+
         <GoogleLogin
           onSuccess={handleLoginSuccess}
           onError={handleLoginFailure}
@@ -46,6 +48,7 @@ const Login = ({ onLoginSuccess }) => {
           <p>
             By clicking <b>Continue with Google</b>, you agree to our{" "}
             <a href="/">Terms of use</a> and <a href="/">Privacy Policy</a>
+
           </p>
         </div>
       </div>
