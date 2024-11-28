@@ -1,12 +1,13 @@
 import axios from 'axios'
+
 const testToken = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkR5d01HVDNlTkZPc0tSejJpenczIiwiaWF0IjoxNzMyNzk5MzI0LCJleHAiOjE3MzI4MDI5MjR9.JtmO-3npApnNSBkGQrkjTM2KruvXcvYgE7rZ_DROoMsHt4CAa51Ns5hIGgjz4D7OONd8Jcb3ZJtMOsC0pO20fJCn2b_r38uX38s1CzvNcdCJf5qbpqVq_oXK2BeJS8xn8B1mtAP1QBx5WSRNn9AtPIoP3SZtxG9nyZGo9E2AYUNHd1cl6nNdJFc0WehrKXBBJORxzhFxSWdX7VtTvHfRiF1r3OvNIGOlmizN-kZV9MwPJBU7Ub4bynhNtiTrSRweepGwPjYRlCm_64gRSXN7ffT7YQYX1l9q2aMAmNBOL7wAIDB8OqRWNtg4Z9h_64aaKvK3S1jz3QTiBLMx1LXTbg'
 // KHI ĐĂNG NHẬP ĐƯỢC TRẢ VỀ {token:'.....'} -> lấy đúng token này truyền vào các hàm bên dưới, mỗi hàm đều có comment mẫu, nên truyền đúng cấu trúc json như vậy để tránh lỗi :V
 // Có thể mở comment để đối với các hàm get... để xem dữ liệu trả về
-const token = { token: '' }
+export const token = { token: '' }
 
 // ---------- STUDENTS  ----------
 login({ username: 'phuoc.hatruong@hcmut.edu.vn', password: 'hcmutK241' }).then((val) => { console.log(val.token) }).catch((err) => console.error(err))
-async function login(data) {
+export async function login(data) {
     try {
         const response = await axios.post(`https://sps-hcmut-server.vercel.app/api/user/login`, data)
         return response.data
@@ -16,7 +17,7 @@ async function login(data) {
 }
 
 // getStudentInfo({ id: 'DywMGT3eNFOsKRz2izw3' }, testToken).then((val) => { console.log(val) }).catch((err) => { console.log(err) })
-async function getStudentInfo(id, token) {
+export async function getStudentInfo(id, token) {
     try {
         const response = await axios.post(`https://sps-hcmut-server.vercel.app/api/user/get_studentinfo`, id, {
             headers: {
@@ -30,7 +31,7 @@ async function getStudentInfo(id, token) {
 }
 //  ---------- PRINTERS  ----------
 // getPrintersByBuilding({ building: 'H1-107' }, testToken).then((val) => { console.log(val) }).catch((err) => { })
-async function getPrintersByBuilding(data, token) {
+export async function getPrintersByBuilding(data, token) {
     try {
         const response = await axios.post(`https://sps-hcmut-server.vercel.app/api/printer/getbybuilding`, data, {
             headers: {
@@ -44,7 +45,7 @@ async function getPrintersByBuilding(data, token) {
 }
 
 // getAllPrinters(testToken).then((val) => { console.log(val) }).catch((err) => { })
-async function getAllPrinters(token) {
+export async function getAllPrinters(token) {
     try {
         const response = await axios.get(`https://sps-hcmut-server.vercel.app/api/printer/getalls`, {
             headers: {
@@ -58,7 +59,7 @@ async function getAllPrinters(token) {
 }
 
 // addPrinter({ building: 'H1-107', enabled: true, location: 'Dĩ An, Bình Dương', model: 'Laser Brother HL-L2321D', status: 'normal' },testToken).then((val) => { }).catch((err) => { })
-async function addPrinter(data, token) {
+export async function addPrinter(data, token) {
     try {
         const response = await axios.post(`https://sps-hcmut-server.vercel.app/api/printer/create`, data, {
             headers: {
@@ -86,7 +87,7 @@ async function addPrinter(data, token) {
 //     }
 // }, testToken).then((val) => { console.log(val) }).catch((err) => { console.error(err) })
 // USER
-async function createPrintingRequest(data, token) {
+export async function createPrintingRequest(data, token) {
     try {
         const response = await axios.post(`https://sps-hcmut-server.vercel.app/api/printingReq/create`, data, {
             headers: {
@@ -102,7 +103,7 @@ async function createPrintingRequest(data, token) {
 
 //SAMPLE FOR PRINTING REQUEST
 // getPrintingRequestByUserId({ id: 'DywMGT3eNFOsKRz2izw3' }, testToken).then((val) => console.log(val)).catch((err) => console.error(err))
-async function getPrintingRequestByUserId(id, token) {
+export async function getPrintingRequestByUserId(id, token) {
     try {
         const response = await axios.post(`https://sps-hcmut-server.vercel.app/api/printingReq/get_by_usrid`, id, {
             headers: {
@@ -116,7 +117,7 @@ async function getPrintingRequestByUserId(id, token) {
 }
 
 // getAllPrintingReqs(testToken).then((val) => { console.log(val) }).catch((err) => { })
-async function getAllPrintingReqs(token) {
+export async function getAllPrintingReqs(token) {
     try {
         const response = await axios.get(`https://sps-hcmut-server.vercel.app/api/printingReq/get_alls`, {
             headers: {
@@ -129,7 +130,7 @@ async function getAllPrintingReqs(token) {
     }
 }
 // confirmPrinting({ id: "SpPNS6q9y1ZzCtQYbmjO" }, testToken).then((val) => { console.log(val) }).catch((err) => { })
-async function confirmPrinting(printingReqId, token) {
+export async function confirmPrinting(printingReqId, token) {
     try {
         const response = await axios.post(`https://sps-hcmut-server.vercel.app/api/printingReq/confirm_printing`, printingReqId, {
             headers: {
@@ -144,7 +145,7 @@ async function confirmPrinting(printingReqId, token) {
 
 //  -------------------- PRINTERS  --------------------
 // getAllPapers(testToken).then((val) => { console.log(val) }).catch((err) => { })
-async function getAllPapers(token) {
+export async function getAllPapers(token) {
     try {
         const response = await axios.get(`https://sps-hcmut-server.vercel.app/api/paper/get_alls`, {
             headers: {
@@ -158,7 +159,7 @@ async function getAllPapers(token) {
 }
 
 // addPaper({ size: 'A4', number: 100, type_of_paper: '70 gms', price: 600, colored_price: 1700 },testToken).then((val) => { console.log(val) }).catch((err) => { console.error(err) })
-async function addPaper(data, token) {
+export async function addPaper(data, token) {
     try {
         const response = await axios.post(`https://sps-hcmut-server.vercel.app/api/paper/add_paper`, data, {
             headers: {
@@ -171,7 +172,7 @@ async function addPaper(data, token) {
     }
 }
 // geAllPaperSizes(testToken).then((val) => { console.log(val) }).catch((err) => { console.error(err) })
-async function geAllPaperSizes(token) {
+export async function geAllPaperSizes(token) {
     try {
         const response = await axios.get(`https://sps-hcmut-server.vercel.app/api/paper/get_sizes`, {
             headers: {
@@ -185,7 +186,7 @@ async function geAllPaperSizes(token) {
 }
 
 // getAllTypeOfPaper(testToken).then((val) => { console.log(val) }).catch((err) => { console.error(err) })
-async function getAllTypeOfPaper(token) {
+export async function getAllTypeOfPaper(token) {
     try {
         const response = await axios.get(`https://sps-hcmut-server.vercel.app/api/paper/get_types`, {
             headers: {
