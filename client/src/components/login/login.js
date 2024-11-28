@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./login.css";
 import logo from "./logo.jpg";
+import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,14 +15,14 @@ const Login = () => {
   };
 
   return (
-    <section className="log-in" id="log-in">
-      <div className="container">
-        <p className="title">Log in</p>
-        <div className="img">
+    <section className={styles.loginBody} id="log-in">
+      <div className={styles.container}>
+        <p className={styles.title}>Log in</p>
+        <div className={styles.img}>
           <img
             src={logo}
             alt="logo"
-            className="logo"
+            className={styles.logo}
             style={{
               width: "150px",
               height: "auto",
