@@ -16,6 +16,7 @@ import InfoDialog from "./components/InfoDialog";
 import BuyPaperPage from "./pages/BuyPaperPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import "./App.css";
+import PrintPage from "./pages/PrintPage";
 
 const clientId =
   "805088220575-7e7a127038e1hrk80cef6so8c9kmg089.apps.googleusercontent.com";
@@ -71,7 +72,14 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            {/* Add more routes as needed */}
+            <Route path="/print" 
+              element={
+              <ProtectedRoute user={user}>
+                <PrintPage />
+              </ProtectedRoute>
+              }
+              />
+            {/* Add more routes as needed */} 
           </Routes>
         </div>
         <Footer />

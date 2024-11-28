@@ -84,12 +84,12 @@ function Upload() {
           <div className="upload-actions">
             <button
               type="button"
-              className="confirm-button"
+              className="rest-option btn btn-primary"
               onClick={handleConfirm}
             >
               Xác nhận in
             </button>
-            <button type="button" className="cancel-button">
+            <button type="button" className="rest-option btn btn-danger">
               Hủy giao dịch
             </button>
           </div>
