@@ -1,12 +1,15 @@
 
 
 ############ ALL TEST API FOR PRINTER
-GET http://localhost:5000/api/printer/getalls
+GET https://sps-hcmut-server.vercel.app/api/printer/getalls
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkR5d01HVDNlTkZPc0tSejJpenczIiwiaWF0IjoxNzMyNzY3NzgzLCJleHAiOjE3MzI3NzEzODN9.hNGj21fHD_sPLou5dbYItxItdkL-tm5_kY-ivE9BXrZENModTJoAAtjm9LwYNVc6PzhowOoZZcXki2-MXOKNkvphRNXPN3BR9MJWAn3QYpdLRGolQJ3WBrDzmxNNsQr4rbcvwAn_eRjzMcR5shdwel_X3Q4JYjWGuiJpYja9twt5rkZYKzapupjDASwqLjPPthWoGI4EjNf-XyVh9gfX3q8qBysAgufWPcy_CESSKvq1a55qv4LBnFlwLRC_O0nKF-TelHzlY3eYD1GpvSbP_YhA2ELB4rw7E0vZ2JITxZ83MRNfZjREIRbxR2QWqAiLjuWQIWqmS9sKptPTHdZFBA
+
 
 ###
-POST http://localhost:5000/api/printer/create
+POST http://sps-hcmut-server.vercel.app/api/user/login
 content-type: application/json
 
 {
-    "user_id": 12
+    "username": "h", 
+    "password": "hcmutK241"
 }

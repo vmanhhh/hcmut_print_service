@@ -3,7 +3,7 @@ const dotenv = require('dotenv')
 
 dotenv.config()
 
-const testToken = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkR5d01HVDNlTkZPc0tSejJpenczIiwiaWF0IjoxNzMyNzA0Njk3LCJleHAiOjE3MzI3MDgyOTd9.pczmDu3KZksP0wCnuV5u92roVeNIwRRrF5Mzm2o99ecn4Q1cP5behHAO9_r1aFZKISiQPpjZJ-AaDjhvQdEer9Ij3vKIaL_2b67spR4qaMbH5Hvqs-lg5_xCM2RXhBNlPe9ZuiUK6Kc6T2DXuJN9Ubuz0TbZ0V0oxRm9z1F351C2AGDAZmGXMuLqr5z2Mw7DmQPItGcGMjnakE_Rc4ZlpQbLuVfKLpSoh_pe9C_CSS9isveV0GkRtC1eRznyigZV1Uavimr3gJPn4Gp4FDu50qRnhFXGJd4OyNkBKHVWrQgaUuwO_8A7NO3bGIFgMnYgNRBPL_z-adl8r7SgshcOYQ'
+const testToken = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkR5d01HVDNlTkZPc0tSejJpenczIiwiaWF0IjoxNzMyNzc3MjYwLCJleHAiOjE3MzI3ODA4NjB9.MSPuaBqM-GTgm_THc2SsCWvpXrGysfsx56ENmewsegSSOhFxKfyzN-hfngEmE-M3liYxmYKsPHH_Cl8YgsMnkRrDoQ9MIYu76yhmf3tv7Atj5ZYv0MvwooDx8kXhZiRl5X99R363pFpuEv5tZBbwEkGTeL394ey8pMv7CSaKD4R7Kl5FzEbGLn8n82AICZCp8Fi89TCBqUR6GwQ4CiWDshS9oDNDxGq4wa9rZLBLhCrcuraiW8Aon0Q8rfLCOgVoiBfv-jFXNMmHJZT5UUP3po36lsjrL-IwLH0_3KpX5crxUukDOuuRVRPZ7lR-IkyYVK7bbTXQWDR7ue1ddwI6BA'
 // ---------- STUDENTS  ----------
 
 // login({ username: 'phuoc.hatruong@hcmut.edu.vn', password: 'hcmutK241' }).then((val) => { console.log(val.token) }).catch((err) => console.error(err))
@@ -73,19 +73,19 @@ async function addPrinter(data, token) {
 }
 
 
-// ---------- PRINTING REQUESTS  ----------
+// -------------------- PRINTING REQUESTS  --------------------
 // createPrintingRequest({
-//     user_id: '', document: {
+//     user_id: 'DywMGT3eNFOsKRz2izw3', document: {
 //         name: 'test.pdf'
 //     }, properties: {
 //         doubled_size: false,
 //         copies: 1,
 //         type_of_paper: '70 gms',
-//         no_pages: '',
+//         no_pages: 3,
 //         size: 'A4',
 //         colored: false
 //     }
-// },testToken).then((val) => { console.log(val) }).catch((err) => { console.error(err) })
+// }, testToken).then((val) => { console.log(val) }).catch((err) => { console.error(err) })
 // USER
 async function createPrintingRequest(data, token) {
     try {
@@ -100,12 +100,9 @@ async function createPrintingRequest(data, token) {
     }
 }
 
-//ADMIN
-async function name(params) {
 
-}
-
-// getPrintingRequestByUserId({ id: 'STUD1' },testToken).then((val) => console.log(val)).catch((err) => console.error(err))
+//SAMPLE FOR PRINTING REQUEST
+// getPrintingRequestByUserId({ id: 'DywMGT3eNFOsKRz2izw3' }, testToken).then((val) => console.log(val)).catch((err) => console.error(err))
 async function getPrintingRequestByUserId(id, token) {
     try {
         const response = await axios.post(`${process.env.SERVER_URL}/api/printingReq/get_by_usrid`, id, {
@@ -118,7 +115,6 @@ async function getPrintingRequestByUserId(id, token) {
         throw error
     }
 }
-
 
 // getAllPrintingReqs(testToken).then((val) => { console.log(val) }).catch((err) => { })
 async function getAllPrintingReqs(token) {
@@ -133,8 +129,21 @@ async function getAllPrintingReqs(token) {
         throw error
     }
 }
+// confirmPrinting({ id: "SpPNS6q9y1ZzCtQYbmjO" }, testToken).then((val) => { console.log(val) }).catch((err) => { })
+async function confirmPrinting(printingReqId, token) {
+    try {
+        const response = await axios.post(`${process.env.SERVER_URL}/api/printingReq/confirm_printing`, printingReqId, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+        return response.data
+    } catch (error) {
+        throw error
+    }
+}
 
-//  ---------- PRINTERS  ----------
+//  -------------------- PRINTERS  --------------------
 // getAllPapers(testToken).then((val) => { console.log(val) }).catch((err) => { })
 async function getAllPapers(token) {
     try {
@@ -176,7 +185,7 @@ async function geAllPaperSizes(token) {
     }
 }
 
-getAllTypeOfPaper(testToken).then((val) => { console.log(val) }).catch((err) => { console.error(err) })
+// getAllTypeOfPaper(testToken).then((val) => { console.log(val) }).catch((err) => { console.error(err) })
 async function getAllTypeOfPaper(token) {
     try {
         const response = await axios.get(`${process.env.SERVER_URL}/api/paper/get_types`, {

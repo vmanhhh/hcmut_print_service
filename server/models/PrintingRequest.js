@@ -1,31 +1,36 @@
 const { collection, addDoc, doc, getDoc, updateDoc, deleteDoc, getDocs, serverTimestamp, query, where } = require("firebase/firestore");
-const { getCustomerById } = require('../models/User')
+const { getCustomerById, get_customer_by_id } = require('../models/User')
 const db = require("../config/db").fireStore
 const logger = require("../config/logger");
 const { get_printer_by_id } = require("./Printer");
 const { get_price_by_paper_properties } = require("./Paper");
-const { create_printing_payment, get_printing_payment_by_printing_req } = require("./Payment");
+const { create_printing_payment, get_printing_payment_by_printing_req, get_printing_payment_by_userid, confirm_printing_payemnt } = require("./Payment");
+const { getCurrentDateTime } = require("../middlewares/supportFunction");
 
 // Function to create a new printing request
 async function create_printing_req(data) {
     try {
         const printingRequestCollection = collection(db, 'PrintingRequest');
-        data.created_at = serverTimestamp()
-
+        data.created_at = getCurrentDateTime()
+        data.estimated_date = { date: "", time: "" }
+        data.status = "Đang xử lý"
+        data.completed_date = { date: "", time: "" }
         //check valid info
         const props = data.properties
         if (!data.user_id || !props.size || !props.no_pages) return { error: 'Not given details' }
-        const user = await getCustomerById(data.user_id)
-        const must_be_price = await get_price_by_paper_properties(props.size, props.no_pages, props.type_of_paper) * (props.copies == undefined ? 1 : props.copies)
-        if (check_payment_for_payment(user, must_be_price)) return { error: 'Not enough amount for payment' }
+        const user = await get_customer_by_id(data.user_id)
+        let must_be_price = await get_price_by_paper_properties(props.size, props.no_pages, props.type_of_paper)
+        must_be_price = must_be_price.price * (props.copies == undefined ? 1 : props.copies) * props.no_pages
+
+        const valid_amount = await check_enough_amout(user, must_be_price)
+        if (!valid_amount) return { error: 'Not enough amount for payment' }
 
         const docRef = await addDoc(printingRequestCollection, data);
 
         //create payment
-        create_printing_payment(docRef.id, amount)
+        await create_printing_payment(docRef.id, must_be_price, data.user_id)
 
-        logger.info(`Created new printing request with id-${docRef.id} successfully`);
-        return docRef.id
+        return { message: "Create printing request successfully" }
     } catch (error) {
         throw error
     }
@@ -73,30 +78,48 @@ async function get_printing_reqs_by_id(id) {
     }
 }
 
-
-async function check_payment_for_payment(user, must_be_price) {
+async function complete_printing(id) {
     try {
-        const amount = must_be_price
-        const reqs = get_pending_printing_reqs(user.id)
+        const req = await getDoc(doc(db, 'PrintingRequest', id));
+        if (req.exists()) {
+            data = req.data()
+            data.completed_date = getCurrentDateTime()
+            data.status = "Đã in tài liệu thành công"
+            await updateDoc(doc(db, 'PrintingRequest', req.id), data)
+            await confirm_printing_payemnt(req.id)
+            return { message: 'Xác nhận tài liệu đã in và cập nhật thanh toán thành công' }
+        } else {
+            return null;
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function check_enough_amout(user, must_be_price) {
+    try {
+        let amount = must_be_price
+        const reqs = await get_pending_payment_amount(user.id)
         reqs.forEach((ele) => {
             amount += ele.amount
         })
-        return user.amount < amount ? false : true
+        logger.info(`Current payment: ${must_be_price}, total_pending_amount: ${amount - must_be_price}, current amount: ${user.amount}, no_pending_payment:${reqs.length + 1}`)
+        return amount < user.amount
     } catch (error) {
         return false
     }
 }
 
 //LẤY NHỮNG PRINTING REQUEST CHƯA HOÀN THÀNH VIỆC IN
-async function get_pending_printing_reqs(user_id) {
+async function get_pending_payment_amount(user_id) {
     try {
         const data = []
-        const reqs = get_printing_reqs_by_user_id(id)
+        const reqs = await get_printing_payment_by_userid(user_id)
         if (reqs.length == 0) return []
-        reqs.forEach((req) => {
-            const payment = get_printing_payment_by_printing_req(id)
-            if (payment.confirmed_date.date === '') data.push(doc)
-        })
+        for (const req of reqs) {
+            if (req.confirmed_date.date === '') data.push(req)
+        }
+        return data
     } catch (error) {
         throw error
     }
@@ -120,14 +143,14 @@ async function get_all_building_printer() {
 // Function to get a printing request by ID
 async function get_printing_reqs_by_user_id(id) {
     try {
-        const docs = await getDocs(query(collection(db, 'PrintingRequest'), where('student_id', '==', id)))
+        const docs = await getDocs(query(collection(db, 'PrintingRequest'), where('user_id', '==', id)))
         const reqs = []
         docs.forEach((doc) => {
             const tmp = doc.data()
             tmp.id = doc.id
-            reqs.push(doc.data())
+            reqs.push(tmp)
         });
-        return reqs.length == 0 ? null : reqs
+        return reqs
     } catch (error) {
         throw error
     }
@@ -150,5 +173,6 @@ module.exports = {
     get_printing_reqs_by_user_id,
     delete_printing_req,
     get_printing_reqs_by_id,
-    get_all_printing_reqs
+    get_all_printing_reqs,
+    complete_printing
 };

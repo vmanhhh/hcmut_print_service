@@ -2,7 +2,6 @@ const { verifyToken } = require('./jwtService');
 
 const authenticate = (req, res, next) => {
     const token = req.headers['authorization'];
-    console.log('Get token:', token)
     if (!token) {
         return res.status(401).json({ message: 'Access token is missing' });
     }

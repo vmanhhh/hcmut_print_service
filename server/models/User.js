@@ -1,4 +1,5 @@
 const { getFirestore, doc, getDoc, updateDoc, getDocs, query, where, or, collection, limit } = require("firebase/firestore");
+const logger = require("../config/logger");
 
 const db = require("../config/db").fireStore;
 
@@ -83,28 +84,19 @@ async function get_balance(id) {
 }
 
 
-async function update_balance(id, addedBalance) {
+async function update_account(id, amount) {
   try {
-    const customerRef = doc(db, "customers", id);
-    const customerSnap = await getDoc(customerRef);
-    if (!customerSnap.exists()) {
-      throw new Error("Không tìm thấy khách hàng");
+    let cus = await getDoc(doc(db, "User", id));
+    if (!cus.exists()) {
+      logger.error('Not found user')
+      throw new Error("");
     }
-
-    //Tính lại số dư mới
-    const currentBalance = customerSnap.data().balance || 0;
-    const newBalance = currentBalance + Number(addedBalance);
+    cus = cus.data()
+    cus.amount = cus.amount - amount >= 0 ? cus.amount - amount : 0
 
     //Cập nhật số dư mới vào database
-    await updateDoc(customerRef, {
-      balance: newBalance,
-      lastUpdated: new Date(),
-      updatedBy: "system",
-    });
-    return {
-      success: true,
-      newBalance: newBalance,
-    };
+    await updateDoc(doc(db, 'User', id), cus);
+    return true
   } catch (err) {
     throw err;
   }
@@ -112,6 +104,6 @@ async function update_balance(id, addedBalance) {
 
 module.exports = {
   get_customer_by_id,
-  update_balance,
+  update_account,
   get_customer_by_email_or_usrname,
 }

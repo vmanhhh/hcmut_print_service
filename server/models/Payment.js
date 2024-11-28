@@ -1,23 +1,24 @@
 const Payment = require('../models/Payment')
-const { collection, addDoc, doc, getDoc, updateDoc, deleteDoc } = require("firebase/firestore");
+const { collection, addDoc, doc, getDoc, updateDoc, deleteDoc, where, limit, getDocs, query } = require("firebase/firestore");
 
 
 const db = require("../config/db").fireStore
 const logger = require("../config/logger")
-const { getCurrentDateTime } = require("../middlewares/supportFunction")
+const { getCurrentDateTime } = require("../middlewares/supportFunction");
+const { update_account } = require('./User');
 
-async function create_printing_payment(printingRequestId, amount) {
+async function create_printing_payment(printingRequestId, amount, user_id) {
     try {
-        const paymentCollection = collection(db, 'Payment');
-
+        const data = {}
         data.printing_request_id = printingRequestId
-        data.title = 'Printing '
+        data.title = 'Printing payment'
         data.created_date = getCurrentDateTime()
         data.status = 'Đang xác nhận thanh toán'
         data.confirmed_date = { date: '', time: '' }
         data.amount = amount
+        data.user_id = user_id
 
-        const docRef = await addDoc(paymentCollection, data);
+        const docRef = await addDoc(collection(db, 'Payment'), data);
         logger.info(`Create new payment with id-${docRef.id} successfully`);
         return docRef.id
     } catch (error) {
@@ -42,7 +43,23 @@ async function get_printing_payment_by_printing_req(printingRequestId) {
     }
 }
 
-async function confirm_printing_payemnt(printingRequestId, user_id) {
+async function get_printing_payment_by_userid(user_id) {
+    try {
+        const docs = await getDocs(query(collection(db, 'Payment'), where('user_id', '==', user_id)))
+        if (docs.empty) return null
+        const data = []
+        docs.forEach((doc) => {
+            const tmp = doc.data()
+            tmp.id = doc.id
+            data.push(tmp)
+        })
+        return data
+    } catch (error) {
+        throw error
+    }
+}
+
+async function confirm_printing_payemnt(printingRequestId) {
     try {
         const payment = await get_printing_payment_by_printing_req(printingRequestId)
         if (payment == null) return null
@@ -55,8 +72,9 @@ async function confirm_printing_payemnt(printingRequestId, user_id) {
         await updateDoc(docRef, payment)
 
         // UPDATE AMOUNT FOR CUSTOMER
-        const user = await getCustomerId()
 
+        await update_account(payment.user_id, payment.amount)
+        return true
     } catch (error) {
         throw error
     }
@@ -100,5 +118,7 @@ async function deletePaymentById(paymentId) {
 module.exports = {
     create_printing_payment,
     get_printing_payment_by_printing_req,
-    deletePaymentById
+    deletePaymentById,
+    get_printing_payment_by_userid,
+    confirm_printing_payemnt
 };

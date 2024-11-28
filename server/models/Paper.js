@@ -55,8 +55,7 @@ async function get_price_by_paper_properties(size, number, type_of_paper) {
         const docs = await getDocs(query(collection(db, 'Paper'),
             where("size", "==", "A4"),
             where('number', '>=', number),
-            orderBy('number'),
-            limit(1)))
+            orderBy('number')))
 
         const prices = []
         if (!type_of_paper) type_of_paper = "70 gms"
@@ -68,6 +67,7 @@ async function get_price_by_paper_properties(size, number, type_of_paper) {
     }
     try {
         const A4price = await A4(number, type_of_paper)
+
         if (size === "A4") return A4price
         else {
             const doc = await getDocs(query(collection(db, 'Paper'),

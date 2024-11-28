@@ -2,13 +2,13 @@ const { collection, addDoc, doc, getDoc, updateDoc, deleteDoc } = require("fireb
 
 const db = require("../config/db").fireStore
 const logger = require("../config/logger");
-const { get_printing_reqs_by_user_id, get_printing_reqs_by_id, get_all_printing_reqs, create_printing_req } = require("../models/PrintingRequest");
+const { get_printing_reqs_by_user_id, get_printing_reqs_by_id, get_all_printing_reqs, create_printing_req, complete_printing } = require("../models/PrintingRequest");
 
 // Function to create a new printing request
 async function createPrintingRequest(req, res, next) {
     try {
         const result = await create_printing_req(req.body);
-        res.json('Create new printer successfully');
+        res.json(result);
 
     } catch (err) {
         next(err);
@@ -45,6 +45,16 @@ async function getAllPrintingReqs(req, res, next) {
     }
 }
 
+async function completePrinting(req, res, next) {
+    try {
+        const result = await complete_printing(req.body.id);
+        if (result == null) res.status(401).json('Something went wrong when confirm printing req and payment')
+        else res.json(result);
+    } catch (error) {
+        next(error)
+    }
+}
+
 // Function to delete a printing request by ID
 async function deletePrintingRequestById(id) {
     try {
@@ -63,5 +73,6 @@ module.exports = {
     getPrintingRequestByUserId,
     deletePrintingRequestById,
     getPrintingRequestById,
-    getAllPrintingReqs
+    getAllPrintingReqs,
+    completePrinting
 };
