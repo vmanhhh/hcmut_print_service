@@ -1,0 +1,25 @@
+###
+POST https://sps-hcmut-server.vercel.app/api/user/login
+content-type: application/json
+
+{
+    "username": "phuoc.hatruong@hcmut.edu.vn", 
+    "password": "hcmutK241"
+}
+
+###
+POST https://sps-hcmut-server.vercel.app/api/user/login
+content-type: application/json
+
+{
+    "username": "phuck241", 
+    "password": "hcmutK241"
+}
+
+###
+GET  https://sps-hcmut-server.vercel.app/api/printer/getalls
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkR5d01HVDNlTkZPc0tSejJpenczIiwiaWF0IjoxNzMyODUyOTE5LCJleHAiOjE3MzI4NTY1MTl9.Vpj6rqFWEGRT2Nz7OH9gW7xeCi0yXFjZR54QaJlkFCCEuu3cUG6dNHd_qdPcdhfFhGYGcRp5M3-8PsFfP5rSQsJJK3SkSz_lzglhV6rFCoh9K29S7xIWp5acFzqNIbUNzyLYgtzdPgCqEZkVVgzZxicp_PiaSjqQVFEzOBcHt7R4wHGH1myemGVa88T2EQCR1ZsSJYhZHSDWYadBAVjxy1ind4-1Mfi2q-o14tk303r-ihKOYqI2jl0M3CClejoo0oetRr3M7AC_3UWguXyN1trK9147RFWF3cztDEJKgUge5jaq6QJyCVBy_k8xZHwqzlGseUT0ycXsmL2Kvh9Fpg
+
+###
+GET  https://sps-hcmut-server.vercel.app/api/printer/getalls
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkVKR25uazhKTXhVOXJibmdhbkMzIiwiaWF0IjoxNzMyODUyOTQ0LCJleHAiOjE3MzI4NTY1NDR9.ga1Vf8KAMYWUChrEYFITfzqr2uu_MPYrnE9mOk0sQuvMT02YDqjWW6IwlAIu5Fe5J9oyjIEw42WI7FVvaOL2ukdsqqmroJyC570pgqKM1KYhI8AldB68oC1X1SyRxQL_JDxc8S7ioiMMU7EQskaMH27q_d1iV01FyZC-HRU0UE7L3ISAQaMmpKJJCkLQVxKMkkw9i8j5Nac8xApu-meBVtEl3fTNOshqRq6CYndHbf8KujwSzuM4oAADVRSsnjVljQK7rvK8Dg2YSI0W34dvHS4bnY4adIlPkji_XREkMq5hBvPAhyGd1fsOcbCAZs7lBlaozVzCvAg7EzWqh2Lmew

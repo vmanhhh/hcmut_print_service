@@ -18,7 +18,7 @@ async function logIn(req, res, next) {
         console.log("Match:", isMatch)
         if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
         const token = generateToken({ id: user.id });
-        res.status(200).json({ token: token })
+        res.status(200).json({ token: token, user_id: user.id })
     } catch (err) {
         next(err);
     }
