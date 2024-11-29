@@ -16,75 +16,21 @@ import InfoDialog from "./components/InfoDialog";
 import BuyPaperPage from "./pages/BuyPaperPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import "./App.css";
-
-const clientId =
-  "805088220575-7e7a127038e1hrk80cef6so8c9kmg089.apps.googleusercontent.com";
-
-function App() {
-  const [user, setUser] = useState(null);
-  const [dialogOpen, setDialogOpen] = useState(false);
-
-  useEffect(() => {
-    // Retrieve user information from localStorage on initial load
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []);
-
-  const handleLoginSuccess = (user) => {
-    setUser(user);
-    setDialogOpen(true);
-    // Store user information in localStorage
-    localStorage.setItem("user", JSON.stringify(user));
-  };
-
-  const handleDialogClose = () => {
-    setDialogOpen(false);
-  };
-
-  const handleLogout = () => {
-    setUser(null);
-    localStorage.removeItem("user");
-  };
-
+import Log from "./pages/log/log";
+const App = () => {
   return (
-
-    <GoogleOAuthProvider clientId={clientId}>
       <Router>
         <div className="app">
-          <Navbar user={user} onAccountClick={() => setDialogOpen(true)} />
+          <Navbar />
           <Routes>
             <Route
-              path="/"
-              element={user ? <HomePage /> : <Navigate to="/login" />}
+              path="/log"
+              element={<Log />}
             />
-            <Route
-              path="/login"
-              element={user ? <Navigate to="/" /> : <Login onLoginSuccess={handleLoginSuccess} />}
-            />
-            <Route
-              path="/buypaper"
-              element={
-                <ProtectedRoute user={user}>
-                  <BuyPaperPage />
-                </ProtectedRoute>
-              }
-            />
-            {/* Add more routes as needed */}
           </Routes>
         </div>
         <Footer />
-        {user && (
-          <InfoDialog
-            open={dialogOpen}
-            onClose={handleDialogClose}
-            user={user}
-            onLogout={handleLogout}
-          />
-        )}
       </Router>
-    </GoogleOAuthProvider>
   );
 }
 

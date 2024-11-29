@@ -1,0 +1,14 @@
+.log-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px 10px 20px;
+    margin: 5px 100px 5px 100px;
+    /* border: solid 1.5px #1488D8; */
+    border-radius: 20px;
+    background-color: #DCEDF9;
+    
+}
+.log-item p {
+    font-style: italic;
+}
