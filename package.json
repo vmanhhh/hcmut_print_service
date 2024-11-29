@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "@emotion/react": "^11.13.5",
+    "@emotion/styled": "^11.13.5",
+    "@fortawesome/fontawesome-free": "^6.7.1",
+    "@material-ui/core": "^4.12.4",
+    "@mui/icons-material": "^6.1.7",
+    "@mui/material": "^6.1.9",
+    "@mui/styled-engine": "^6.1.7",
+    "@mui/styled-engine-sc": "^6.1.9",
+    "@react-oauth/google": "^0.12.1",
+    "jwt-decode": "^4.0.0",
+    "styled-components": "^6.1.13"
+  }
+}
