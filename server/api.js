@@ -15,7 +15,7 @@ async function login(data) {
     }
 }
 
-getStudentInfo({ id: 'DywMGT3eNFOsKRz2izw3' }).then((val) => { console.log(val) }).catch((err) => { console.log(err) })
+// getStudentInfo({ id: 'DywMGT3eNFOsKRz2izw3' }).then((val) => { console.log(val) }).catch((err) => { console.log(err) })
 async function getStudentInfo(id) {
     try {
         const response = await axios.post(`${process.env.SERVER_URL}/api/user/get_studentinfo`, id)
@@ -144,4 +144,67 @@ async function getAllTypeOfPaper() {
         throw error
     }
 }
+
+
+
+// API FOR UPLOAD FILE AND DOWNLOAD FILE
+async function uploadFile(idOfCompFrontend) {
+    const fileInput = document.getElementById(idOfCompFrontend);
+    const file = fileInput.files[0];
+    if (!file) {
+        alert('Please select a file to upload.');
+        return;
+    }
+
+    try {
+        // 1. Request a pre-signed URL from your server
+        const response = await fetch(`http://localhost:5000/api/s3/upload/generate-presigned-url?filename=${file.name}&filetype=${file.type}`);
+        const data = await response.json();
+        console.log(data)
+        // 2. Use the pre-signed URL to upload the file directly to S3
+        const s3Response = await fetch(data.url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': file.type
+            },
+            body: file
+        });
+
+        if (s3Response.ok) {
+            alert('File uploaded successfully!');
+        } else {
+            alert('File upload failed.');
+        }
+    } catch (error) {
+        console.error('Error uploading file:', error);
+        alert('An error occurred while uploading the file.');
+    }
+
+
+}
+
+async function downloadFile(idOfCompFrontend) {
+    const filename = document.getElementById(idOfCompFrontend).value;
+    if (!filename) {
+        alert('Please enter a filename to download.');
+        return;
+    }
+
+    try {
+        // 1. Request a pre-signed URL for the file to download from your server
+        const response = await fetch(`http://localhost:5000/api/s3/download/generate-presigned-url?filename=${filename}`);
+        const data = await response.json();
+        console.log(data);
+
+        // 2. Create a download link for the file
+        const link = document.createElement('a');
+        link.href = data.url; // This is the pre-signed URL
+        link.download = filename; // This will suggest the filename to save as
+        link.click(); // This will trigger the download
+    } catch (error) {
+        console.error('Error downloading file:', error);
+        alert('An error occurred while downloading the file.');
+    }
+}
+
 

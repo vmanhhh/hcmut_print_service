@@ -8,7 +8,7 @@ const printerRoutes = require('./routes/printer')
 const printingReqRoutes = require('./routes/printingrequest')
 const paperRoutes = require('./routes/paper')
 const userRoutes = require('./routes/user')
-
+const s3Routes = require('./routes/s3url')
 require("dotenv").config();
 const port = process.env.PORT;
 
@@ -17,6 +17,7 @@ app.use('/api/printer', printerRoutes);
 app.use('/api/printingReq', printingReqRoutes);
 app.use('/api/paper', paperRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/s3', s3Routes)
 
 
 // Khởi động server
