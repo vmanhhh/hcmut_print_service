@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Modal, Backdrop, Fade, Button } from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import { Modal, Backdrop, Fade } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { QRPay, BanksObject } from 'vietnam-qr-pay';
 import QRCode from 'qrcode';
@@ -23,10 +23,10 @@ const PaymentModal = ({ amount }) => {
     const [open, setOpen] = useState(false);
     const [qrCodeUrl, setQrCodeUrl] = useState('');
 
-    const handleOpen = () => {
+    useEffect(() => {
         generateQRCode();
         setOpen(true);
-    };
+    }, []);
 
     const handleClose = () => {
         setOpen(false);
@@ -45,11 +45,11 @@ const PaymentModal = ({ amount }) => {
     const generateQRCode = () => {
         const qrPay = QRPay.initVietQR({
             bankBin: BanksObject.vietcombank.bin,
-            bankNumber: 9981907003,
-            amount: amount, // Số tiền
+            bankNumber: '9981907003',
+            amount: `${amount}`, // Số tiền
             purpose: generateRandomCode(10), // Nội dung chuyển tiền
         });
-        const qrCodeString = qrPay.generateQRCode();
+        const qrCodeString = qrPay.build();
 
         // Convert the QR code string to an image
         QRCode.toDataURL(qrCodeString, function (err, url) {
@@ -62,31 +62,26 @@ const PaymentModal = ({ amount }) => {
     };
 
     return (
-        <div>
-            <Button variant="contained" color="primary" onClick={handleOpen}>
-                Open Payment Modal
-            </Button>
-            <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                className={classes.modal}
-                open={open}
-                onClose={handleClose}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                    timeout: 500,
-                }}
-            >
-                <Fade in={open}>
-                    <div className={classes.paper}>
-                        <h2 id="transition-modal-title">Payment QR Code</h2>
-                        <p id="transition-modal-description">Scan the QR code to make a payment.</p>
-                        {qrCodeUrl && <img src={qrCodeUrl} alt="QR Code" />}
-                    </div>
-                </Fade>
-            </Modal>
-        </div>
+        <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            className={classes.modal}
+            open={open}
+            onClose={handleClose}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+                timeout: 500,
+            }}
+        >
+            <Fade in={open}>
+                <div className={classes.paper}>
+                    <h2 id="transition-modal-title">Payment QR Code</h2>
+                    <p id="transition-modal-description">Scan the QR code to make a payment.</p>
+                    {qrCodeUrl && <img src={qrCodeUrl} alt="QR Code" />}
+                </div>
+            </Fade>
+        </Modal>
     );
 };
 

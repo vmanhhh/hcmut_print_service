@@ -66,7 +66,8 @@ async function addPrinter(data, token) {
                 'Authorization': `Bearer ${token}`,
             }
         })
-        return { message: 'Add new printer successfully' }
+        console.log(response)
+        return { response }
     } catch (error) {
         throw error
     }

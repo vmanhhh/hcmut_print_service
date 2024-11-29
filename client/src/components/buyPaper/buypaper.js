@@ -1,22 +1,35 @@
 import React, { useState } from "react";
 import "./buypaper.css";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import PaymentModal from "../payment"; // Adjust the import path as necessary
 
 const BuyPaper = () => {
   const [quantity, setQuantity] = useState(0);
   const [paperType, setPaperType] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [amount, setAmount] = useState(0);
+
   const increaseQuantity = () => setQuantity((prev) => prev + 1);
   const decreaseQuantity = () =>
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+
   const handlePayment = () => {
     if (!paperType) {
       alert("Vui lòng chọn loại giấy.");
       return;
     }
-    alert(
-      `Thông tin thanh toán: Loại giấy: ${paperType}, Số lượng: ${quantity}`
-    );
+
+    let pricePerUnit = 0;
+    if (paperType === "A4") {
+      pricePerUnit = 1000;
+    } else if (paperType === "A5") {
+      pricePerUnit = 500;
+    }
+
+    setAmount(quantity * pricePerUnit);
+    setIsModalOpen(true);
   };
+
   return (
     <section className="buy-paper" id="buy-paper">
       <div className="container">
@@ -30,7 +43,7 @@ const BuyPaper = () => {
               onChange={() => setPaperType("A4")}
             />
             <label htmlFor="paper-a4" className="paper-label">
-              <p>A4</p>
+              <p>A4 (1000đ/tờ)</p>
               <DescriptionOutlinedIcon
                 className="paper-icon"
                 style={{
@@ -52,7 +65,7 @@ const BuyPaper = () => {
               onChange={() => setPaperType("A5")}
             />
             <label htmlFor="paper-a5" className="paper-label">
-              <p>A5</p>
+              <p>A5 (500đ/tờ)</p>
               <DescriptionOutlinedIcon
                 className="paper-icon"
                 style={{
@@ -88,6 +101,7 @@ const BuyPaper = () => {
           </button>
         </div>
       </div>
+      {isModalOpen && <PaymentModal amount={amount} />}
     </section>
   );
 };
