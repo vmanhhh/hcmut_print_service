@@ -65,16 +65,16 @@ const BuyPaper = () => {
             </label>
           </div>
         </div>
-
-        <div className="capacity">
-          <span className="sl">Số lượng</span>
-          <div className="btn">
-            <i className="fa fa-minus-circle" onClick={decreaseQuantity}></i>
-            <p>{quantity}</p>
-            <i className="fa fa-plus-circle" onClick={increaseQuantity}></i>
-          </div>
-        </div>
         <div className="group-btn">
+          <div className="capacity">
+            <span className="sl">Số lượng</span>
+            <div className="btn">
+              <i className="fa fa-minus-circle" onClick={decreaseQuantity}></i>
+              <p>{quantity}</p>
+              <i className="fa fa-plus-circle" onClick={increaseQuantity}></i>
+            </div>
+          </div>
+
           <button
             className="rest-option btn btn-primary"
             onClick={handlePayment}

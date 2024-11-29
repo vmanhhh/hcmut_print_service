@@ -65,6 +65,7 @@ const Login = ({ onLoginSuccess }) => {
           <p>
             By logging in, you agree to our{" "}
             <a href="/">Terms of use</a> and <a href="/">Privacy Policy</a>
+
           </p>
         </div>
       </div>

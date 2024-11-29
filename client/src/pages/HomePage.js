@@ -7,10 +7,12 @@ const HomePage = () => {
     <>
       <Header />
       <Link to="/print">
-        <button className="rest-option btn btn-primary" onClick={() => {}}>
-          <span className="text">Bắt đầu in</span>{" "}
-          <i className="fa fa-angle-right"></i>
-        </button>
+        <div className="group-btn">
+          <button className="rest-option btn btn-primary" onClick={() => {}}>
+            <span className="text">Bắt đầu in</span>{" "}
+            <i className="fa fa-angle-right"></i>
+          </button>
+        </div>
       </Link>
     </>
   );
