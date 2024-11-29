@@ -1,28 +1,34 @@
 import React, { useState } from "react";
 import "./login.css";
 import logo from "./logo.jpg";
-import { jwtDecode } from "jwt-decode";
+import { login } from "../../api"; // Adjust the import path as necessary
 
-const Login = () => {
-  const [email, setEmail] = useState("");
+const Login = ({ onLoginSuccess }) => {
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
-    console.log("Email:", email);
-    console.log("Password:", password);
-    // Handle the login logic, e.g., send a request to the server
+    try {
+      const user = await login({ username, password });
+      localStorage.setItem('userToken', user.token); // Save the token in localStorage
+      onLoginSuccess(user);
+    } catch (error) {
+      console.error(error);
+      setError("Invalid email or password");
+    }
   };
 
   return (
-    <section className={styles.loginBody} id="log-in">
-      <div className={styles.container}>
-        <p className={styles.title}>Log in</p>
-        <div className={styles.img}>
+    <section className="log-in" id="log-in">
+      <div className="container">
+        <p className="title">Log in</p>
+        <div className="img">
           <img
             src={logo}
             alt="logo"
-            className={styles.logo}
+            className="logo"
             style={{
               width: "150px",
               height: "auto",
@@ -33,12 +39,12 @@ const Login = () => {
         </div>
         <form onSubmit={handleLogin}>
           <div className="form-group">
-            <label htmlFor="email">Email:</label>
+            <label htmlFor="username">Email:</label>
             <input
               type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
             />
           </div>
@@ -52,6 +58,7 @@ const Login = () => {
               required
             />
           </div>
+          {error && <p className="error">{error}</p>}
           <button type="submit" className="btn btn-primary">Log In</button>
         </form>
         <div className="term-privacy">

@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-import { GoogleOAuthProvider } from "@react-oauth/google";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
-
 import HomePage from "./pages/HomePage";
 import Login from "./components/login/login";
 import InfoDialog from "./components/InfoDialog";
+import BuyPaperPage from "./pages/BuyPaperPage";
 import "./App.css";
-
-const clientId = "805088220575-7e7a127038e1hrk80cef6so8c9kmg089.apps.googleusercontent.com";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -40,23 +37,23 @@ function App() {
   };
 
   return (
-
-    <GoogleOAuthProvider clientId={clientId}>
-      <Router>
-        <div className="app">
-          <Navbar />
-          <Routes>
-            <Route path="/" element={user ? <HomePage /> : <Navigate to="/login" />} />
-            <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
-            {/* Add more routes as needed */}
-          </Routes>
-        </div>
-        <Footer />
-        {user && (
-          <InfoDialog open={dialogOpen} onClose={handleDialogClose} user={user} />
-        )}
-      </Router>
-    </GoogleOAuthProvider>
+    <Router>
+      <div className="app">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={user ? <HomePage /> : <Navigate to="/login" />} />
+          <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
+          <Route path="/logout" element={<Navigate to="/" />} />
+          <Route path="/buypaper" element={user ? <BuyPaperPage /> : <Navigate to="/login" />} />
+         
+          {/* Add more routes as needed */}
+        </Routes>
+      </div>
+      <Footer />
+      {user && (
+        <InfoDialog open={dialogOpen} onClose={handleDialogClose} user={user} />
+      )}
+    </Router>
   );
 }
 
