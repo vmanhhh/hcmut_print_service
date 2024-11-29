@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import "./login.css";
 import logo from "./logo.jpg";
 import { login } from "../../api"; // Adjust the import path as necessary
+import { useNavigate } from 'react-router-dom';
 
 const Login = ({ onLoginSuccess }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -14,6 +16,7 @@ const Login = ({ onLoginSuccess }) => {
       const user = await login({ username, password });
       localStorage.setItem('userToken', user.token); // Save the token in localStorage
       onLoginSuccess(user);
+      navigate("/");
     } catch (error) {
       console.error(error);
       setError("Invalid email or password");
@@ -65,7 +68,6 @@ const Login = ({ onLoginSuccess }) => {
           <p>
             By logging in, you agree to our{" "}
             <a href="/">Terms of use</a> and <a href="/">Privacy Policy</a>
-
           </p>
         </div>
       </div>
