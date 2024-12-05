@@ -148,17 +148,18 @@ async function getAllTypeOfPaper() {
 
 
 // API FOR UPLOAD FILE AND DOWNLOAD FILE
-async function uploadFile(idOfCompFrontend) {
+async function uploadFile(idOfCompFrontend, user_id) {
     const fileInput = document.getElementById(idOfCompFrontend);
     const file = fileInput.files[0];
     if (!file) {
         alert('Please select a file to upload.');
         return;
     }
-
+    const newFileName = `${user_id}${file.name}`; // Add a prefix or modify as needed
+    file = new File([file], newFileName, { type: file.type });
     try {
         // 1. Request a pre-signed URL from your server
-        const response = await fetch(`http://localhost:5000/api/s3/upload/generate-presigned-url?filename=${file.name}&filetype=${file.type}`);
+        const response = await fetch(`https://sps-hcmut-server.vercel.app/api/s3/upload/generate-presigned-url?filename=${file.name}&filetype=${file.type}`);
         const data = await response.json();
         console.log(data)
         // 2. Use the pre-signed URL to upload the file directly to S3
@@ -183,7 +184,7 @@ async function uploadFile(idOfCompFrontend) {
 
 }
 
-async function downloadFile(idOfCompFrontend) {
+async function downloadFile(idOfCompFrontend, user_id) {
     const filename = document.getElementById(idOfCompFrontend).value;
     if (!filename) {
         alert('Please enter a filename to download.');
@@ -192,7 +193,7 @@ async function downloadFile(idOfCompFrontend) {
 
     try {
         // 1. Request a pre-signed URL for the file to download from your server
-        const response = await fetch(`http://localhost:5000/api/s3/download/generate-presigned-url?filename=${filename}`);
+        const response = await fetch(`http://localhost:5000/api/s3/download/generate-presigned-url?filename=${user_id}_${filename}`);
         const data = await response.json();
         console.log(data);
 
