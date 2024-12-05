@@ -1,8 +1,8 @@
 //Express setup
 const express = require("express");
 const app = express();
-
-
+const cors = require('cors');
+app.use(cors());
 const printerRoutes = require('./routes/printer')
 const printingReqRoutes = require('./routes/printingrequest')
 const paperRoutes = require('./routes/paper')

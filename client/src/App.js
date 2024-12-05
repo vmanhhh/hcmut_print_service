@@ -1,24 +1,15 @@
 
 import React, { useState, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from "react-router-dom";
-import { GoogleOAuthProvider } from "@react-oauth/google";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
-
 import HomePage from "./pages/HomePage";
 import Login from "./components/login/login";
 import InfoDialog from "./components/InfoDialog";
 import BuyPaperPage from "./pages/BuyPaperPage";
-import ProtectedRoute from "./components/ProtectedRoute";
+import PrintPage from "./pages/PrintPage";
+import LogPage from "./pages/LogPage";
 import "./App.css";
-
-const clientId =
-  "805088220575-7e7a127038e1hrk80cef6so8c9kmg089.apps.googleusercontent.com";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -34,7 +25,7 @@ function App() {
 
   const handleLoginSuccess = (user) => {
     setUser(user);
-    setDialogOpen(true);
+    setDialogOpen(false);
     // Store user information in localStorage
     localStorage.setItem("user", JSON.stringify(user));
   };
@@ -47,44 +38,30 @@ function App() {
     setUser(null);
     localStorage.removeItem("user");
   };
+  const handleAccountClick = () => {
+    setDialogOpen(true);
+  };
 
   return (
+    <Router>
+      <div className="app">
+        <Navbar user={user} onAccountClick={handleAccountClick} />
+        <Routes>
+          <Route path="/" element={user ? <HomePage /> : <Navigate to="/login" />} />
+          <Route path="/login" element={user ? <Navigate to="/" /> : <Login onLoginSuccess={handleLoginSuccess} />} />
+          <Route path="/logout" element={<Navigate to="/" />} />
+          <Route path="/buypaper" element={user ? <BuyPaperPage /> : <Navigate to="/login" />} />
+          <Route path="/print" element={user ? <PrintPage /> : <Navigate to="/login" />} />
+          <Route path="/log" element={user ? <LogPage /> : <Navigate to="/login" />} />
 
-    <GoogleOAuthProvider clientId={clientId}>
-      <Router>
-        <div className="app">
-          <Navbar user={user} onAccountClick={() => setDialogOpen(true)} />
-          <Routes>
-            <Route
-              path="/"
-              element={user ? <HomePage /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/login"
-              element={user ? <Navigate to="/" /> : <Login onLoginSuccess={handleLoginSuccess} />}
-            />
-            <Route
-              path="/buypaper"
-              element={
-                <ProtectedRoute user={user}>
-                  <BuyPaperPage />
-                </ProtectedRoute>
-              }
-            />
-            {/* Add more routes as needed */}
-          </Routes>
-        </div>
-        <Footer />
-        {user && (
-          <InfoDialog
-            open={dialogOpen}
-            onClose={handleDialogClose}
-            user={user}
-            onLogout={handleLogout}
-          />
-        )}
-      </Router>
-    </GoogleOAuthProvider>
+          {/* Add more routes as needed */}
+        </Routes>
+      </div>
+      <Footer />
+      {user && (
+        <InfoDialog open={dialogOpen} onClose={handleDialogClose} user={user} onLogout={handleLogout}/>
+      )}
+    </Router>
   );
 }
 

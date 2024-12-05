@@ -1,0 +1,145 @@
+[
+  {
+    "user_id": "DywMGT3eNFOsKRz2izw3",
+    "created_at": { "time": "13:14:42", "date": "28/11/2024" },
+    "document": { "name": "test.pdf" },
+    "properties": {
+      "doubled_size": false,
+      "size": "A4",
+      "type_of_paper": "70 gms",
+      "colored": false,
+      "no_pages": 1,
+      "copies": 1
+    },
+    "status": "Đã in tài liệu thành công",
+    "completed_date": { "time": "14:43:31", "date": "28/11/2024" },
+    "id": "639x1AErn0RCCpK4IDKR"
+  },
+  {
+    "created_at": { "date": "28/11/2024", "time": "13:17:38" },
+    "document": { "name": "test.pdf" },
+    "user_id": "DywMGT3eNFOsKRz2izw3",
+    "properties": {
+      "type_of_paper": "70 gms",
+      "size": "A4",
+      "copies": 1,
+      "doubled_size": false,
+      "no_pages": 3,
+      "colored": false
+    },
+    "id": "BX1f5gBXVPLr8PXBZSqL"
+  },
+  {
+    "created_at": { "date": "28/11/2024", "time": "13:15:41" },
+    "document": { "name": "test.pdf" },
+    "properties": {
+      "doubled_size": false,
+      "no_pages": 3,
+      "size": "A4",
+      "colored": false,
+      "copies": 1,
+      "type_of_paper": "70 gms"
+    },
+    "user_id": "DywMGT3eNFOsKRz2izw3",
+    "id": "HS9KfVpsBUL6qa60obHY"
+  },
+  {
+    "user_id": "DywMGT3eNFOsKRz2izw3",
+    "status": "Đã in tài liệu thành công",
+    "properties": {
+      "copies": 1,
+      "no_pages": 1,
+      "size": "A4",
+      "type_of_paper": "70 gms",
+      "doubled_size": false,
+      "colored": false
+    },
+    "document": { "name": "test.pdf" },
+    "created_at": { "date": "28/11/2024", "time": "13:13:01" },
+    "completed_date": { "date": "28/11/2024", "time": "14:50:06" },
+    "id": "SpPNS6q9y1ZzCtQYbmjO"
+  },
+  {
+    "created_at": { "time": "13:16:08", "date": "28/11/2024" },
+    "user_id": "DywMGT3eNFOsKRz2izw3",
+    "properties": {
+      "doubled_size": false,
+      "type_of_paper": "70 gms",
+      "colored": false,
+      "no_pages": 3,
+      "size": "A4",
+      "copies": 1
+    },
+    "document": { "name": "test.pdf" },
+    "id": "VyPKOXhehvU6P4e93XvV"
+  },
+  {
+    "created_at": { "date": "28/11/2024", "time": "13:14:18" },
+    "document": { "name": "test.pdf" },
+    "properties": {
+      "doubled_size": false,
+      "type_of_paper": "70 gms",
+      "size": "A4",
+      "no_pages": 1,
+      "colored": false,
+      "copies": 1
+    },
+    "user_id": "DywMGT3eNFOsKRz2izw3",
+    "id": "cpp2WKH4igEgoMlfyWpi"
+  },
+  {
+    "user_id": "DywMGT3eNFOsKRz2izw3",
+    "document": { "name": "test.pdf" },
+    "created_at": { "date": "28/11/2024", "time": "13:17:43" },
+    "properties": {
+      "no_pages": 3,
+      "colored": false,
+      "copies": 1,
+      "type_of_paper": "70 gms",
+      "doubled_size": false,
+      "size": "A4"
+    },
+    "id": "jIh9Tl4iRQ1TPkVeCGWh"
+  },
+  {
+    "properties": {
+      "copies": 1,
+      "size": "A4",
+      "type_of_paper": "70 gms",
+      "doubled_size": false,
+      "no_pages": 3,
+      "colored": false
+    },
+    "user_id": "DywMGT3eNFOsKRz2izw3",
+    "document": { "name": "test.pdf" },
+    "created_at": { "time": "13:17:51", "date": "28/11/2024" },
+    "id": "lnS1KCoBLcpAE6hqYBZH"
+  },
+  {
+    "status": "",
+    "completed_date": { "date": "", "time": "" },
+    "estimated_date": { "time": "", "date": "" },
+    "confirmed": false,
+    "user_id": "DywMGT3eNFOsKRz2izw3",
+    "document": { "name": "", "doc_type": "" },
+    "properties": {
+      "copies": 1,
+      "type_of_paper": "70 gms",
+      "size": "A4",
+      "colored": false,
+      "doubled_size": false,
+      "no_pages": 10
+    },
+    "done": false,
+    "id": "sample",
+    "printer": {
+      "model": "Canon PIXMA TS207",
+      "enabled": true,
+      "location": "Dĩ An, Bình Dương",
+      "building": "H1-305",
+      "status": "Đang hoạt động",
+      "created_date": { "time": "13:37:37", "date": "26/11/2024" },
+      "id": "PsjOiJMJRcw8ngeR3uIf"
+    }
+  }
+]

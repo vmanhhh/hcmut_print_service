@@ -19,7 +19,7 @@ const Login = ({ onLoginSuccess }) => {
       navigate("/");
     } catch (error) {
       console.error(error);
-      setError("Invalid email or password");
+      setError("Successfully logged in");
     }
   };
 

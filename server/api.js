@@ -1,11 +1,11 @@
 const axios = require('axios')
 const dotenv = require('dotenv')
-
+const cors = require('cors')
 dotenv.config()
 
 
 // ---------- STUDENTS  ----------
-
+use(cors());
 // login({ username: 'phuoc.hatruong@hcmut.edu.vn', password: 'hcmutK241' }).then((val) => { console.log(val.token) }).catch((err) => console.error(err))
 async function login(data) {
     try {
