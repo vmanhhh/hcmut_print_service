@@ -4,9 +4,6 @@ import './logItem.css'
 const logItem = ({date, name, state}) => {
     return (
         <div className='log-item'>
-            <div className='date'>
-                <p>{date}</p>
-            </div>
             <div className='file-name'>
                 <p>{name}</p>
             </div>

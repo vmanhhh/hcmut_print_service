@@ -76,9 +76,17 @@ const PaymentModal = ({ amount }) => {
         >
             <Fade in={open}>
                 <div className={classes.paper}>
-                    <h2 id="transition-modal-title">Payment QR Code</h2>
-                    <p id="transition-modal-description">Scan the QR code to make a payment.</p>
-                    {qrCodeUrl && <img src={qrCodeUrl} alt="QR Code" />}
+                    <h2 id="transition-modal-title">VietQR</h2>
+
+                    <p id="transition-modal-description">Quét mã QR để thanh toán</p>
+                    {qrCodeUrl && (
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                            <img src={qrCodeUrl} alt="QR Code" />
+                        </div>
+                    )}
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
+                        <p>Số tiền: {amount} VND</p>
+                    </div>
                 </div>
             </Fade>
         </Modal>

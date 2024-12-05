@@ -8,6 +8,7 @@ import Login from "./components/login/login";
 import InfoDialog from "./components/InfoDialog";
 import BuyPaperPage from "./pages/BuyPaperPage";
 import PrintPage from "./pages/PrintPage";
+import LogPage from "./pages/LogPage";
 import "./App.css";
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
           <Route path="/logout" element={<Navigate to="/" />} />
           <Route path="/buypaper" element={user ? <BuyPaperPage /> : <Navigate to="/login" />} />
           <Route path="/print" element={user ? <PrintPage /> : <Navigate to="/login" />} />
+          <Route path="/log" element={user ? <LogPage /> : <Navigate to="/login" />} />
 
           {/* Add more routes as needed */}
         </Routes>
